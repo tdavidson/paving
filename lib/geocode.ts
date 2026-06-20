@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import {
   lineIntersect,
   lineString,
@@ -35,16 +37,52 @@ const SUFFIX_ABBR: Record<string, string> = {
   EXTENSION: "EXT",
 };
 
+/**
+ * Typo-correction layer. The schedule street names are typed by hand, so the
+ * city regularly misspells them (e.g. "Spring Gargen", "Perrsville") and they
+ * never match the GIS centerline. data/street-corrections.json fixes those at
+ * ingest. Keys/values are normalized to UPPERCASE single-spaced on load.
+ *
+ * Two forms, both honored: a whole-name key ("VARA CRUZ ST" -> "VERA CRUZ WAY",
+ * which also corrects the suffix) and a single-word key ("GARGEN" -> "GARDEN",
+ * which fixes that token wherever it appears, in a street or a cross-street).
+ */
+let correctionsCache: Record<string, string> | null = null;
+function loadCorrections(): Record<string, string> {
+  if (correctionsCache) return correctionsCache;
+  const out: Record<string, string> = {};
+  try {
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), "data", "street-corrections.json"), "utf8")
+    );
+    for (const [k, v] of Object.entries(raw)) {
+      if (typeof v !== "string") continue;
+      const key = k.toUpperCase().replace(/\s+/g, " ").trim();
+      if (key) out[key] = v.toUpperCase().replace(/\s+/g, " ").trim();
+    }
+  } catch {
+    /* no corrections file: leave empty */
+  }
+  correctionsCache = out;
+  return out;
+}
+
 /** Normalize a street name for matching against the GIS centerline. */
 export function normalizeStreet(name: string): string {
-  return name
+  const corrections = loadCorrections();
+  const cleaned = name
     .toUpperCase()
     .replace(/\./g, "")
     .replace(/\bDEAD\s*END\b/g, "")
     .replace(/\(.*?\)/g, "") // drop parentheticals like "(DE)"
     .replace(/\s+/g, " ")
-    .trim()
+    .trim();
+  // Apply corrections (whole-name first, then per word) before abbreviating
+  // suffixes, so corrected names like "VERA CRUZ WAY" flow through normally.
+  const whole = corrections[cleaned] ?? cleaned;
+  return whole
     .split(" ")
+    .map((w) => corrections[w] ?? w)
     .map((w) => SUFFIX_ABBR[w] ?? w)
     .join(" ")
     .trim();

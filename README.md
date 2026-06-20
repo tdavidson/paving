@@ -104,6 +104,11 @@ paste the deployed URL (e.g. `https://your-domain/api/kml`). Re-importing picks 
 the city's latest changes. (Google My Maps imports a snapshot at import time; for a
 continuously-live layer, embed this app instead.)
 
+The app also has an **"Add to Google Maps"** button in the header that opens a
+modal with copy-ready feed links (everything or construction-only) and these
+steps, so users can drop the overlay onto Google's base map — with its live
+Traffic layer — without leaving the page.
+
 ## Geocoding accuracy
 
 The schedule is human-typed street names with cross-street limits and no
