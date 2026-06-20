@@ -180,10 +180,18 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
     [days]
   );
 
-  // Default to the full span whenever the set of days changes.
+  // Default to "this week" (falling back to the full span when there's no
+  // current-week schedule data) whenever the set of days changes.
+  const defaultWin = useMemo<[string, string] | null>(() => {
+    const mon = mondayOf(new Date());
+    const thisWeek: [string, string] = [isoOf(mon), isoOf(addDays(mon, 6))];
+    if (days.some((d) => d >= thisWeek[0] && d <= thisWeek[1])) return thisWeek;
+    return fullSpan;
+  }, [days, fullSpan]);
+
   useEffect(() => {
-    setDateWin(fullSpan);
-  }, [fullSpan]);
+    setDateWin(defaultWin);
+  }, [defaultWin]);
 
   // Week presets, computed from today (Monday-based). A week preset is only
   // shown if the schedule actually has work in that week (no "Last week" button
