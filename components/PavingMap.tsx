@@ -98,6 +98,7 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
   const mapRef = useRef<google.maps.Map | null>(null);
   const infoRef = useRef<google.maps.InfoWindow | null>(null);
   const overlaysRef = useRef<(google.maps.Polyline | google.maps.Marker)[]>([]);
+  const trafficRef = useRef<google.maps.TrafficLayer | null>(null);
 
   const [data, setData] = useState<FC | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -112,8 +113,9 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
   const [dateWin, setDateWin] = useState<[string, string] | null>(null);
   const [ready, setReady] = useState(false);
   const [showUnresolved, setShowUnresolved] = useState(false);
-  const [showShare, setShowShare] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const [calOpen, setCalOpen] = useState(false);
+  const [traffic, setTraffic] = useState(false);
 
   // Load data. Prefix with the base path so it works under a sub-path deploy too.
   useEffect(() => {
@@ -146,6 +148,18 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
       .catch((e) => setError(e.message));
   }, [apiKey]);
 
+  // Google's live Traffic layer, toggled on/off over our overlays.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready) return;
+    if (traffic) {
+      if (!trafficRef.current) trafficRef.current = new google.maps.TrafficLayer();
+      trafficRef.current.setMap(map);
+    } else {
+      trafficRef.current?.setMap(null);
+    }
+  }, [traffic, ready]);
+
   // The day slider is driven by the schedule (milling/paving/ada), which has one
   // work date per item. Construction closures span ranges that often start months
   // back, so they're excluded here (they'd stretch the slider) and instead
@@ -171,17 +185,24 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
     setDateWin(fullSpan);
   }, [fullSpan]);
 
-  // Week presets, computed from today (Monday-based).
+  // Week presets, computed from today (Monday-based). A week preset is only
+  // shown if the schedule actually has work in that week (no "Last week" button
+  // when there's no last-week data); "All" shows whenever any data exists.
   const presets = useMemo(() => {
     const mon = mondayOf(new Date());
-    const list: { label: string; range: [string, string] | null }[] = [
+    const weeks: { label: string; range: [string, string] }[] = [
       { label: "Last week", range: [isoOf(addDays(mon, -7)), isoOf(addDays(mon, -1))] },
       { label: "This week", range: [isoOf(mon), isoOf(addDays(mon, 6))] },
       { label: "Next week", range: [isoOf(addDays(mon, 7)), isoOf(addDays(mon, 13))] },
-      { label: "All", range: fullSpan },
     ];
+    const hasData = (r: [string, string]) => days.some((d) => d >= r[0] && d <= r[1]);
+    const list = weeks.filter((w) => hasData(w.range)) as {
+      label: string;
+      range: [string, string] | null;
+    }[];
+    if (fullSpan) list.push({ label: "All", range: fullSpan });
     return list;
-  }, [fullSpan]);
+  }, [days, fullSpan]);
 
   const fromDate = dateWin?.[0] ?? fullSpan?.[0];
   const toDate = dateWin?.[1] ?? fullSpan?.[1];
@@ -278,20 +299,25 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
 
   return (
     <div className="flex h-screen flex-col">
-      <header className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b bg-background px-4 py-2.5">
-        <div className="flex items-baseline gap-2">
+      <header className="flex flex-col gap-2.5 border-b bg-background px-4 py-2.5">
+        {/* Row 1: title + actions */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <h1 className="text-sm font-semibold tracking-tight">Pittsburgh Paving and Construction</h1>
-          <a
-            href="https://taylordavidson.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
-          >
-            taylordavidson.com
-          </a>
+          <div className="flex items-center gap-2 md:ml-auto">
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              className="h-7 px-2.5 text-xs"
+              onClick={() => setShowAbout(true)}
+            >
+              About
+            </Button>
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 md:ml-auto">
+        {/* Row 2: layer selectors + date controls */}
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
           {(Object.keys(COLORS) as Category[]).map((c) => (
             <div key={c} className="flex items-center gap-2">
               <Checkbox
@@ -305,6 +331,19 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
               </Label>
             </div>
           ))}
+
+          {/* Google's live traffic layer. */}
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id="cat-traffic"
+              checked={traffic}
+              onCheckedChange={(v) => setTraffic(v === true)}
+            />
+            <Label htmlFor="cat-traffic" className="flex cursor-pointer items-center gap-1.5">
+              <span className="inline-block h-3 w-3 rounded-sm bg-gradient-to-r from-[#63d668] via-[#ff974d] to-[#f23c32]" />
+              Live traffic
+            </Label>
+          </div>
 
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
             {/* Week presets — snap the window to a calendar week. */}
@@ -376,15 +415,6 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
               </span>
             )}
           </div>
-
-          <Button
-            type="button"
-            size="sm"
-            className="h-7 px-2.5 text-xs"
-            onClick={() => setShowShare(true)}
-          >
-            Add to Google Maps
-          </Button>
         </div>
       </header>
 
@@ -419,27 +449,18 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
       {showUnresolved && (
         <UnresolvedModal items={unresolved} onClose={() => setShowUnresolved(false)} />
       )}
-      {showShare && <ShareModal onClose={() => setShowShare(false)} />}
+      {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
     </div>
   );
 }
 
-/**
- * Walks the user through importing the live overlay into Google My Maps, where
- * it sits alongside Google's own base map (and traffic layer) — the combination
- * the schedule sheet alone can't give you.
- */
-function ShareModal({ onClose }: { onClose: () => void }) {
+/** Intro + how-it-works, adapted from the project README. */
+function AboutModal({ onClose }: { onClose: () => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [onClose]);
-
-  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
-  const kmlAll = `${origin}${base}/api/kml`;
-  const kmlConstruction = `${origin}${base}/api/kml?category=construction`;
 
   return (
     <div
@@ -447,20 +468,16 @@ function ShareModal({ onClose }: { onClose: () => void }) {
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label="Add this map to Google My Maps"
+      aria-label="About this map"
     >
       <Card
-        className="flex max-h-[85vh] w-full max-w-lg flex-col overflow-hidden p-0"
+        className="flex max-h-[85vh] w-full max-w-xl flex-col overflow-hidden p-0"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4 border-b px-4 py-3">
-          <div>
-            <h2 className="text-sm font-semibold tracking-tight">Add to Google My Maps</h2>
-            <p className="mt-0.5 text-xs text-muted-foreground">
-              Import this live overlay as a layer, then turn on Google&apos;s Traffic layer — active
-              construction closures on top of real-time traffic.
-            </p>
-          </div>
+          <h2 className="text-sm font-semibold tracking-tight">
+            About Pittsburgh Paving and Construction
+          </h2>
           <button
             type="button"
             onClick={onClose}
@@ -471,75 +488,92 @@ function ShareModal({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
-        <div className="overflow-y-auto px-4 py-3 text-xs">
-          <ol className="space-y-3">
-            <li className="flex flex-col gap-1.5">
-              <span>
-                <strong>1.</strong> Copy the live feed link (everything, or construction only):
-              </span>
-              <CopyRow label="Everything" url={kmlAll} />
-              <CopyRow label="Construction only" url={kmlConstruction} />
-              <span className="text-muted-foreground">
-                Tip: add <code className="rounded bg-muted px-1">?date=YYYY-MM-DD</code> to pin a day.
-              </span>
-            </li>
-            <li>
-              <strong>2.</strong> Open{" "}
-              <Button asChild size="sm" variant="outline" className="mx-0.5 h-6 px-2 text-xs">
-                <a
-                  href="https://www.google.com/maps/d/u/0/?action=new"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Google My Maps ↗
-                </a>
-              </Button>{" "}
-              and create (or open) a map.
-            </li>
-            <li>
-              <strong>3.</strong> In the legend, click <em>Add layer → Import</em>, choose{" "}
-              <em>paste a URL</em>, and paste the link from step 1.
-            </li>
-            <li>
-              <strong>4.</strong> Set the base map to <em>Traffic</em> (or open the map in the Google
-              Maps app and enable the Traffic layer) to see closures against live conditions.
-            </li>
-          </ol>
-          <p className="mt-3 text-muted-foreground">
-            My Maps imports a snapshot, so re-import to pull the latest. The link always serves the
-            current data, so an embed of this app stays continuously live.
+        <div className="space-y-3 overflow-y-auto px-4 py-3 text-xs leading-relaxed">
+          <p className="text-muted-foreground">
+            Built and maintained by{" "}
+            <a
+              href="https://taylordavidson.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-foreground underline underline-offset-2 hover:text-foreground"
+            >
+              Taylor Davidson
+            </a>
+            . Open source and public on{" "}
+            <a
+              href="https://github.com/tdavidson/paving"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-foreground underline underline-offset-2 hover:text-foreground"
+            >
+              GitHub
+            </a>
+            .
+          </p>
+          <p>
+            An unofficial, auto-updating map of the City of Pittsburgh&apos;s milling, paving, and
+            ADA curb-ramp schedule, plus active street-closure <strong>construction</strong>{" "}
+            permits. It reads the city&apos;s own published data live, so the map reflects whatever
+            the city last published. See the city&apos;s official{" "}
+            <a
+              href="https://www.pittsburghpa.gov/Resident-Services/Road-Maintenance/Paving-Schedule"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-foreground"
+            >
+              Paving Schedule page
+            </a>
+            .
+          </p>
+          <p>
+            The schedule covers only planned resurfacing. Most of the construction you see on the
+            street — utility cuts, road openings, contractor work — is permitted separately by the{" "}
+            Department of Mobility &amp; Infrastructure (DOMI) and published as the{" "}
+            <a
+              href="https://data.wprdc.org/dataset/street-closures"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-foreground"
+            >
+              DOMI Street Closures
+            </a>{" "}
+            dataset on the Western Pennsylvania Regional Data Center (WPRDC).
+          </p>
+
+          <div>
+            <h3 className="mb-1 text-xs font-semibold">How it works</h3>
+            <ul className="list-disc space-y-1 pl-4 text-muted-foreground">
+              <li>
+                <strong className="text-foreground">Paving / milling / ADA</strong> come from the
+                city&apos;s published Google Sheet. The rolling sheet only shows this/past week, so a
+                daily ingest stamps each row with its real date and keeps a growing history.
+              </li>
+              <li>
+                Those hand-typed streets are matched to geometry using the City of Pittsburgh GIS
+                centerline (no Google geocoding), with a typo-correction layer for names the sheet
+                misspells.
+              </li>
+              <li>
+                <strong className="text-foreground">Construction</strong> is fetched live from the
+                WPRDC closures feed, which already ships geometry — so it skips geocoding entirely.
+                Only currently-active closures are shown.
+              </li>
+              <li>
+                Filter by work type and by day — use the week presets, the slider, or pick an
+                individual day from the calendar. Toggle <em>Live traffic</em> to see closures
+                against Google&apos;s real-time traffic.
+              </li>
+            </ul>
+          </div>
+
+          <p className="border-t pt-3 text-muted-foreground">
+            <strong className="text-foreground">Disclaimer:</strong> Unofficial. Schedules change
+            and are weather-dependent; always follow posted &ldquo;No Parking&rdquo; signs. Data ©
+            City of Pittsburgh; geometry derived from the city&apos;s public GIS centerline and the
+            WPRDC DOMI Street Closures dataset.
           </p>
         </div>
       </Card>
-    </div>
-  );
-}
-
-function CopyRow({ label, url }: { label: string; url: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <div className="flex items-center gap-2 rounded-md border bg-muted/40 px-2 py-1.5">
-      <span className="shrink-0 text-[11px] font-medium text-muted-foreground">{label}</span>
-      <code className="flex-1 truncate text-[11px]" title={url}>
-        {url}
-      </code>
-      <Button
-        type="button"
-        size="sm"
-        variant="outline"
-        className="h-6 shrink-0 px-2 text-[11px]"
-        onClick={async () => {
-          try {
-            await navigator.clipboard.writeText(url);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 1500);
-          } catch {
-            /* clipboard blocked; user can still select the text */
-          }
-        }}
-      >
-        {copied ? "Copied" : "Copy"}
-      </Button>
     </div>
   );
 }

@@ -101,13 +101,10 @@ Both accept filters: `?category=milling,paving,ada,construction` and
 
 To overlay in **Google My Maps**: create/open a map → **Add layer → Import** →
 paste the deployed URL (e.g. `https://your-domain/api/kml`). Re-importing picks up
-the city's latest changes. (Google My Maps imports a snapshot at import time; for a
-continuously-live layer, embed this app instead.)
-
-The app also has an **"Add to Google Maps"** button in the header that opens a
-modal with copy-ready feed links (everything or construction-only) and these
-steps, so users can drop the overlay onto Google's base map — with its live
-Traffic layer — without leaving the page.
+the city's latest changes. (Google My Maps imports a snapshot at import time and
+never auto-refreshes — there is no live-layer option in Google Maps / My Maps. For
+a continuously-live view, use the app itself: it renders the data on Google's own
+map tiles and has a **Live traffic** toggle for Google's real-time traffic layer.)
 
 ## Geocoding accuracy
 
