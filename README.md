@@ -13,11 +13,6 @@ history instead of resetting every Monday.
 Built with Next.js + Tailwind + shadcn/ui + Google Maps, deployable to Vercel. No
 database — history lives in a committed JSON file (see "Storing the history").
 
-The UI is themed to match **taylordavidson.com** (the "Muir" palette): the system
-sans-serif stack, a `#3e63a4` blue accent on the controls, and map categories drawn
-from the same palette (teal milling, blue paving, rose ADA). Retheme by editing the
-CSS variables in `app/globals.css` and `COLORS` in `components/PavingMap.tsx`.
-
 ## How it works
 
 ```
@@ -66,34 +61,6 @@ key:
 
 Geocoding does **not** use Google — it uses Pittsburgh's public GIS centerline —
 so the only Google cost is map loads.
-
-## Deploy to Vercel
-
-1. Push this repo to GitHub.
-2. Import it in Vercel.
-3. Set the env var `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` (and optionally
-   `PAVING_SHEET_PUB_ID`) in the Vercel project settings.
-4. Deploy.
-
-### Picking a URL
-
-**Subdomain (simplest, recommended).** Point a subdomain at the Vercel project:
-`paving.hemrock.com` or `paving.taylordavidson.com`. In Vercel → project →
-**Domains**, add the subdomain and create the `CNAME` it shows you at your DNS
-host. No code changes needed; the app serves at the domain root.
-
-**Sub-path of an existing site** (e.g. `hemrock.com/city`). Set the build-time
-env var `BASE_PATH=/city` (or `/paving`) on the Vercel project — `next.config.mjs`
-reads it and mounts the whole app, including its API routes and assets, under that
-path. Then send `hemrock.com/city/*` to this project. Two ways:
-
-- If the parent site is also on Vercel/Next, add a rewrite there:
-  `{ source: "/city/:path*", destination: "https://<this-app>.vercel.app/city/:path*" }`.
-- Or put both on the same domain in Vercel and let project domains/rewrites route
-  the path.
-
-A sub-path on a domain that isn't proxy-friendly (plain static host, Squarespace,
-etc.) is the one painful case — reach for the subdomain there.
 
 ## Shareable overlay (Google My Maps)
 
