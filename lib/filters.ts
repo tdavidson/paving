@@ -1,6 +1,6 @@
 import type { Category } from "./types";
 
-const VALID: Category[] = ["milling", "paving", "ada"];
+const VALID: Category[] = ["milling", "paving", "ada", "construction"];
 
 /** Parse ?category=milling,paving (repeatable) and ?date=YYYY-MM-DD from a URL. */
 export function parseFilters(url: string): { categories?: Category[]; date?: string } {

@@ -16,11 +16,13 @@ const COLORS: Record<Category, string> = {
   milling: "#56b58a",
   paving: "#3e63a4",
   ada: "#c95274",
+  construction: "#e67c14",
 };
 const LABELS: Record<Category, string> = {
   milling: "Milling",
   paving: "Paving",
   ada: "ADA curb ramps",
+  construction: "Construction",
 };
 const PITTSBURGH = { lat: 40.4406, lng: -79.9959 };
 
@@ -45,6 +47,17 @@ function fmtDate(iso: string): string {
   return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
 }
 
+// Schedule items have a single `date`; construction closures span [date, endDate]
+// and are shown whenever that range overlaps the selected [from, to] window.
+function inWindow(p: any, from: string, to: string): boolean {
+  if (p.category === "construction") {
+    const start = p.date || "0000-00-00";
+    const end = p.endDate || "9999-12-31";
+    return start <= to && end >= from;
+  }
+  return p.date >= from && p.date <= to;
+}
+
 export default function PavingMap({ apiKey }: { apiKey: string }) {
   const mapEl = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -53,7 +66,12 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
 
   const [data, setData] = useState<FC | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [cats, setCats] = useState<Record<Category, boolean>>({ milling: true, paving: true, ada: true });
+  const [cats, setCats] = useState<Record<Category, boolean>>({
+    milling: true,
+    paving: true,
+    ada: true,
+    construction: true,
+  });
   const [range, setRange] = useState<[number, number] | null>(null);
   const [ready, setReady] = useState(false);
 
@@ -88,10 +106,18 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
       .catch((e) => setError(e.message));
   }, [apiKey]);
 
+  // The day slider is driven by the schedule (milling/paving/ada), which has one
+  // work date per item. Construction closures span ranges that often start months
+  // back, so they're excluded here (they'd stretch the slider) and instead
+  // filtered by range-overlap below.
   const days = useMemo(() => {
     if (!data) return [];
     const set = new Set<string>();
-    for (const f of data.features) set.add((f.properties as any).date);
+    for (const f of data.features) {
+      const p = f.properties as any;
+      if (p.category === "construction") continue;
+      if (p.date) set.add(p.date);
+    }
     return Array.from(set).sort();
   }, [data]);
 
@@ -118,11 +144,22 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
       const p = f.properties as any;
       const cat = p.category as Category;
       if (!cats[cat]) continue;
-      if (fromDate && toDate && (p.date < fromDate || p.date > toDate)) continue;
+      if (fromDate && toDate && !inWindow(p, fromDate, toDate)) continue;
       const color = COLORS[cat];
-      const info = `<strong>${escapeHtml(p.street)}</strong><br/>${LABELS[cat]} — ${fmtDate(p.date)}${
+
+      const when =
+        cat === "construction" && p.endDate && p.endDate !== p.date
+          ? `${fmtDate(p.date)} – ${fmtDate(p.endDate)}`
+          : fmtDate(p.date);
+      const detailLine =
+        cat === "construction" && p.detail
+          ? `<br/><span style="color:#6b7280">${escapeHtml(p.detail)}</span>`
+          : p.label && p.label !== p.street
+          ? `<br/><span style="color:#6b7280">${escapeHtml(p.label)}</span>`
+          : "";
+      const info = `<strong>${escapeHtml(p.street)}</strong><br/>${LABELS[cat]} — ${when}${
         p.approx ? " <em>(approx.)</em>" : ""
-      }${p.label && p.label !== p.street ? `<br/><span style="color:#6b7280">${escapeHtml(p.label)}</span>` : ""}`;
+      }${detailLine}`;
 
       if (f.geometry.type === "LineString") {
         const path = (f.geometry.coordinates as number[][]).map((c) => ({ lat: c[1], lng: c[0] }));

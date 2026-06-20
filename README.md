@@ -1,9 +1,19 @@
 # Pittsburgh Paving Schedule Map
 
 An unofficial, auto-updating map of the City of Pittsburgh's milling, paving, and
-ADA curb-ramp schedule. It reads the city's own published Google Sheet live, so
-the map reflects whatever the city last published, and lets you filter by day and
-by work type (milling / paving / ADA).
+ADA curb-ramp schedule, plus active street-closure **construction** permits. It
+reads the city's own published Google Sheet live, so the map reflects whatever
+the city last published, and lets you filter by day and by work type (milling /
+paving / ADA / construction).
+
+The schedule covers only planned resurfacing. Most of the construction you see on
+the street — utility cuts, road openings, contractor work — is permitted
+separately by the Department of Mobility & Infrastructure (DOMI) and published as
+the [DOMI Street Closures](https://data.wprdc.org/dataset/street-closures)
+dataset on the Western Pennsylvania Regional Data Center (WPRDC). That feed
+already carries geometry, so the "construction" layer is fetched live and drawn
+directly (no geocoding). We show only the ~1.8k closures the city currently flags
+`active`, out of ~69k all-time rows.
 
 The city's sheet only shows a rolling "this week / past week" window and drops
 older weeks. A scheduled ingest stamps every row with its real calendar date and
@@ -16,23 +26,32 @@ database — history lives in a committed JSON file (see "Storing the history").
 ## How it works
 
 ```
-City's published Google Sheet (5 tabs)
-        │  CSV export (no key, updates when the city edits the sheet)
-        ▼
-  lib/sheet.ts    parse the irregular per-day layout into clean records
-        ▼
-  lib/archive.ts  append each dated row to data/archive.json (history the
-                  rolling sheet drops); `npm run ingest`, daily via Actions
-        ▼
-  lib/geocode.ts  resolve each street/limit to geometry using the City of
-                  Pittsburgh GIS street centerline (free, no key)
-        ▼
-  /api/paving     GeoJSON for the map: archive ∪ live sheet (revalidated hourly)
+City's published Google Sheet (5 tabs)        WPRDC DOMI Street Closures
+        │  CSV export (no key)                         │  CKAN datastore SQL
+        ▼                                              │  (no key); active rows
+  lib/sheet.ts    parse the irregular per-day          │  only, geometry included
+                  layout into clean records            ▼
+        ▼                                       lib/closures.ts  swap [lat,lng]→
+  lib/archive.ts  append each dated row to             │  [lng,lat]; build
+                  data/archive.json (history the       │  GeoJSON directly —
+                  rolling sheet drops); `npm run       │  NO geocoding step
+                  ingest`, daily via Actions           │
+        ▼                                              │
+  lib/geocode.ts  resolve each street/limit to         │
+                  geometry via City GIS centerline     │
+        ▼                                              ▼
+  /api/paving     GeoJSON for the map: archive ∪ live sheet ∪ live closures
   /api/geojson    GeoJSON overlay feed (filterable) for Google My Maps
   /api/kml        KML overlay feed (filterable) for Google My Maps
         ▼
-  app/ + components/PavingMap.tsx   Google Map with day picker + 3 toggles
+  app/ + components/PavingMap.tsx   Google Map with day picker + 4 toggles
 ```
+
+The construction layer is best-effort and additive: if the WPRDC feed is down,
+`lib/closures.ts` logs and returns nothing, and the schedule map still renders.
+It's only pulled by the API routes (`includeConstruction: true`); the
+geocode/ingest scripts stay schedule-only, so it never touches the geocode cache
+or archive.
 
 The source sheet is the one embedded on
 <https://www.pittsburghpa.gov/Resident-Services/Road-Maintenance/Paving-Schedule>.
@@ -59,8 +78,9 @@ key:
 3. Restrict it to your domains (`localhost`, `*.vercel.app`, your real domain).
 4. Put it in `.env` as `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=...`
 
-Geocoding does **not** use Google — it uses Pittsburgh's public GIS centerline —
-so the only Google cost is map loads.
+Geocoding does **not** use Google — it uses Pittsburgh's public GIS centerline,
+and the construction layer ships its own geometry — so the only Google cost is
+map loads.
 
 ## Shareable overlay (Google My Maps)
 
@@ -69,12 +89,13 @@ Two endpoints expose the same data as importable layers:
 - `GET /api/geojson` — GeoJSON
 - `GET /api/kml` — KML
 
-Both accept filters: `?category=milling,paving,ada` and `?date=YYYY-MM-DD`.
-Examples:
+Both accept filters: `?category=milling,paving,ada,construction` and
+`?date=YYYY-MM-DD`. Examples:
 
 ```
 /api/kml                              # everything
 /api/kml?category=paving              # paving only
+/api/kml?category=construction        # active street closures only
 /api/geojson?category=ada&date=2026-06-23
 ```
 
@@ -154,5 +175,6 @@ The app also revalidates the upstream sheet hourly on its own.
 ## Disclaimer
 
 Unofficial. Schedules change and are weather-dependent; always follow posted "No
-Parking" signs. Data © City of Pittsburgh; geometry derived from the city's public
-GIS centerline.
+Parking" signs. Data © City of Pittsburgh; paving/milling/ADA geometry derived
+from the city's public GIS centerline, and construction closures from the WPRDC
+DOMI Street Closures dataset.

@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { Feature, FeatureCollection } from "geojson";
 import { fetchSchedule } from "./sheet";
+import { fetchConstructionFeatures } from "./closures";
 import { resolveSegment, resolveIntersections, normalizeStreet } from "./geocode";
 import { idFor, loadArchiveItems } from "./archive";
 import type { Category, GeocodeCache, PavingFeatureProps, ScheduleItem } from "./types";
@@ -67,9 +68,19 @@ export async function loadAllItems(): Promise<ScheduleItem[]> {
  * @param allowLive when true, resolve geometry from the GIS service for cache
  *   misses (used by the prebuild/ingest scripts). At runtime we default to
  *   cache-only plus a bounded number of live lookups so requests stay fast.
+ * @param includeConstruction when true, also fetch the live DOMI street-closure
+ *   ("construction") layer and append it. These features ship their own
+ *   geometry, so they skip geocoding and never touch `cache`/`unresolved`. The
+ *   geocode/ingest scripts leave this off so they only manage the schedule.
  */
 export async function buildCollection(
-  opts: { allowLive?: boolean; cache?: GeocodeCache; maxLive?: number; items?: ScheduleItem[] } = {}
+  opts: {
+    allowLive?: boolean;
+    cache?: GeocodeCache;
+    maxLive?: number;
+    items?: ScheduleItem[];
+    includeConstruction?: boolean;
+  } = {}
 ): Promise<BuildResult & { cache: GeocodeCache }> {
   const cache: GeocodeCache = opts.cache ?? loadCache();
   const overrides = loadOverrides();
@@ -113,6 +124,11 @@ export async function buildCollection(
         properties: props,
       });
     }
+  }
+
+  if (opts.includeConstruction) {
+    // Additive and best-effort: a closures outage must not blank the schedule.
+    features.push(...(await fetchConstructionFeatures()));
   }
 
   return { collection: { type: "FeatureCollection", features }, unresolved, cache };

@@ -1,4 +1,4 @@
-export type Category = "milling" | "paving" | "ada";
+export type Category = "milling" | "paving" | "ada" | "construction";
 
 /** A single scheduled item parsed out of one of the sheet tabs. */
 export interface ScheduleItem {
@@ -30,11 +30,22 @@ export interface ResolvedGeometry {
 
 export interface PavingFeatureProps {
   category: Category;
+  /**
+   * For milling/paving/ada: the single work date. For construction (a DOMI
+   * street closure that spans a range) this is the start date (`from_date`);
+   * see `endDate` for the other end.
+   */
   date: string;
   weekday: string;
   street: string;
   label: string;
   approx: boolean;
+  /** Construction only: closure end date (`to_date`), if known. */
+  endDate?: string;
+  /** Construction only: permit type + closure scope + work blurb for the popup. */
+  detail?: string;
+  /** Construction only: whether the city currently flags the closure active. */
+  active?: boolean;
 }
 
 export type GeocodeCache = Record<
