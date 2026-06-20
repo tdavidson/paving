@@ -1,0 +1,567 @@
+[
+  {
+    "id": "paving|2026-06-15|allegheny ave|n franklin st (de)|decatur st",
+    "category": "paving",
+    "date": "2026-06-15",
+    "weekday": "Mon",
+    "street": "Allegheny Ave",
+    "from": "N Franklin St (DE)",
+    "to": "Decatur St",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-15|hamlin st|bidwell st|fontella st",
+    "category": "paving",
+    "date": "2026-06-15",
+    "weekday": "Mon",
+    "street": "Hamlin St",
+    "from": "Bidwell St",
+    "to": "Fontella St",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-15|juniata st|juniata st split|fulton st",
+    "category": "paving",
+    "date": "2026-06-15",
+    "weekday": "Mon",
+    "street": "Juniata st",
+    "from": "Juniata St Split",
+    "to": "Fulton St",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-15|seymour st|dead end|preble ave",
+    "category": "paving",
+    "date": "2026-06-15",
+    "weekday": "Mon",
+    "street": "Seymour St",
+    "from": "Dead End",
+    "to": "Preble Ave",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-15|tay way|behind #5832|pierce st",
+    "category": "paving",
+    "date": "2026-06-15",
+    "weekday": "Mon",
+    "street": "Tay Way",
+    "from": "Behind #5832",
+    "to": "Pierce St",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-16|daisy st|sherlock st|vetern st",
+    "category": "paving",
+    "date": "2026-06-16",
+    "weekday": "Tue",
+    "street": "Daisy St",
+    "from": "Sherlock St",
+    "to": "Vetern St",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-16|federal st|mercy st|lafayette ave",
+    "category": "paving",
+    "date": "2026-06-16",
+    "weekday": "Tue",
+    "street": "Federal ST",
+    "from": "Mercy St",
+    "to": "Lafayette Ave",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-16|perrsville ave|e burgess st|federal ext n",
+    "category": "paving",
+    "date": "2026-06-16",
+    "weekday": "Tue",
+    "street": "Perrsville Ave",
+    "from": "E Burgess St",
+    "to": "Federal Ext N",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-16|vara cruz st|la place st|centre ave",
+    "category": "paving",
+    "date": "2026-06-16",
+    "weekday": "Tue",
+    "street": "Vara Cruz St",
+    "from": "La Place St",
+    "to": "Centre Ave",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-16|warlo st|sedgwick st|allegheny ave",
+    "category": "paving",
+    "date": "2026-06-16",
+    "weekday": "Tue",
+    "street": "Warlo St",
+    "from": "Sedgwick St",
+    "to": "Allegheny Ave",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-17|perrsville ave|e burgess st|federal ext n",
+    "category": "paving",
+    "date": "2026-06-17",
+    "weekday": "Wed",
+    "street": "Perrsville Ave",
+    "from": "E Burgess St",
+    "to": "Federal Ext N",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-18|perrsville ave|e burgess st|federal ext n",
+    "category": "paving",
+    "date": "2026-06-18",
+    "weekday": "Thu",
+    "street": "Perrsville Ave",
+    "from": "E Burgess St",
+    "to": "Federal Ext N",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-19|perrsville ave|e burgess st|federal ext n",
+    "category": "paving",
+    "date": "2026-06-19",
+    "weekday": "Fri",
+    "street": "Perrsville Ave",
+    "from": "E Burgess St",
+    "to": "Federal Ext N",
+    "weekLabel": "2026 6-15 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "ada|2026-06-22|california ave|verner ave,cottage pl,wittmer st",
+    "category": "ada",
+    "date": "2026-06-22",
+    "weekday": "Mon",
+    "street": "California ave",
+    "intersections": [
+      "Verner ave",
+      "Cottage pl",
+      "Wittmer st"
+    ],
+    "weekLabel": "2026 6-22 ADA list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "ada|2026-06-22|california ave|chellis st,winhurst st",
+    "category": "ada",
+    "date": "2026-06-22",
+    "weekday": "Mon",
+    "street": "California ave",
+    "intersections": [
+      "Chellis st",
+      "Winhurst st"
+    ],
+    "weekLabel": "2026 6-22 ADA list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "ada|2026-06-22|kalorama way|davis ave",
+    "category": "ada",
+    "date": "2026-06-22",
+    "weekday": "Mon",
+    "street": "Kalorama way",
+    "intersections": [
+      "Davis ave"
+    ],
+    "weekLabel": "2026 6-22 ADA list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "ada|2026-06-22|letort st|by school/park",
+    "category": "ada",
+    "date": "2026-06-22",
+    "weekday": "Mon",
+    "street": "Letort st",
+    "intersections": [
+      "By school/park"
+    ],
+    "weekLabel": "2026 6-22 ADA list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-22|armandale st|buena vista st|wolpert way",
+    "category": "milling",
+    "date": "2026-06-22",
+    "weekday": "Mon",
+    "street": "Armandale St",
+    "from": "Buena Vista St",
+    "to": "Wolpert Way",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-22|brighton road|n taylor ave|eloise st",
+    "category": "milling",
+    "date": "2026-06-22",
+    "weekday": "Mon",
+    "street": "Brighton Road",
+    "from": "N Taylor Ave",
+    "to": "Eloise St",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-22|hertzog way|dead end|fleming ave",
+    "category": "milling",
+    "date": "2026-06-22",
+    "weekday": "Mon",
+    "street": "Hertzog Way",
+    "from": "Dead End",
+    "to": "Fleming Ave",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-22|mero way|buena vista st|brighton rd",
+    "category": "milling",
+    "date": "2026-06-22",
+    "weekday": "Mon",
+    "street": "mero Way",
+    "from": "Buena Vista St",
+    "to": "Brighton Rd",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-23|aquatic way|wapello st|wickshire st",
+    "category": "milling",
+    "date": "2026-06-23",
+    "weekday": "Tue",
+    "street": "Aquatic Way",
+    "from": "Wapello St",
+    "to": "Wickshire St",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-23|mairdale ave|hewitt st|perrysville ave",
+    "category": "milling",
+    "date": "2026-06-23",
+    "weekday": "Tue",
+    "street": "Mairdale Ave",
+    "from": "Hewitt St",
+    "to": "Perrysville Ave",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-23|orchlee st|brighton rd|fleming ave",
+    "category": "milling",
+    "date": "2026-06-23",
+    "weekday": "Tue",
+    "street": "Orchlee ST",
+    "from": "Brighton Rd",
+    "to": "Fleming Ave",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-23|pemberton st|brighton road|aquatic way",
+    "category": "milling",
+    "date": "2026-06-23",
+    "weekday": "Tue",
+    "street": "Pemberton st",
+    "from": "Brighton Road",
+    "to": "Aquatic Way",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-23|brightridge|holyoke st|n charles st",
+    "category": "paving",
+    "date": "2026-06-23",
+    "weekday": "Tue",
+    "street": "Brightridge",
+    "from": "Holyoke St",
+    "to": "N Charles St",
+    "weekLabel": "2026 6-22 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-23|daisy way|sherlock st|veteran st",
+    "category": "paving",
+    "date": "2026-06-23",
+    "weekday": "Tue",
+    "street": "Daisy Way",
+    "from": "Sherlock St",
+    "to": "Veteran St",
+    "weekLabel": "2026 6-22 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-23|federal st|mercy st|lafayette ave",
+    "category": "paving",
+    "date": "2026-06-23",
+    "weekday": "Tue",
+    "street": "Federal St",
+    "from": "Mercy St",
+    "to": "Lafayette Ave",
+    "weekLabel": "2026 6-22 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "ada|2026-06-24|fulton st|western ave",
+    "category": "ada",
+    "date": "2026-06-24",
+    "weekday": "Wed",
+    "street": "Fulton st",
+    "intersections": [
+      "Western ave"
+    ],
+    "weekLabel": "2026 6-22 ADA list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "ada|2026-06-24|manhattan st|faulsey way",
+    "category": "ada",
+    "date": "2026-06-24",
+    "weekday": "Wed",
+    "street": "Manhattan st",
+    "intersections": [
+      "Faulsey way"
+    ],
+    "weekLabel": "2026 6-22 ADA list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "ada|2026-06-24|north point drive|beaver ave",
+    "category": "ada",
+    "date": "2026-06-24",
+    "weekday": "Wed",
+    "street": "North point drive",
+    "intersections": [
+      "Beaver ave"
+    ],
+    "weekLabel": "2026 6-22 ADA list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-24|homer st|firth st|high st",
+    "category": "milling",
+    "date": "2026-06-24",
+    "weekday": "Wed",
+    "street": "Homer St",
+    "from": "Firth ST",
+    "to": "High St",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-24|rhine st|beckham st|gass st",
+    "category": "milling",
+    "date": "2026-06-24",
+    "weekday": "Wed",
+    "street": "Rhine St",
+    "from": "Beckham St",
+    "to": "Gass ST",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-24|spring gargen ave|lager st|wicklines ln",
+    "category": "milling",
+    "date": "2026-06-24",
+    "weekday": "Wed",
+    "street": "Spring Gargen Ave",
+    "from": "Lager St",
+    "to": "Wicklines Ln",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-24|aquatic way|wapello st|wickshire st",
+    "category": "paving",
+    "date": "2026-06-24",
+    "weekday": "Wed",
+    "street": "Aquatic Way",
+    "from": "Wapello St",
+    "to": "Wickshire St",
+    "weekLabel": "2026 6-22 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-24|armandale st|buena vista st|wolpert way",
+    "category": "paving",
+    "date": "2026-06-24",
+    "weekday": "Wed",
+    "street": "Armandale St",
+    "from": "Buena Vista St",
+    "to": "Wolpert Way",
+    "weekLabel": "2026 6-22 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-24|brighton road|n taylor ave|eloise st",
+    "category": "paving",
+    "date": "2026-06-24",
+    "weekday": "Wed",
+    "street": "Brighton Road",
+    "from": "N Taylor Ave",
+    "to": "Eloise St",
+    "weekLabel": "2026 6-22 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-24|mero way|buena vista st|brighton rd",
+    "category": "paving",
+    "date": "2026-06-24",
+    "weekday": "Wed",
+    "street": "mero Way",
+    "from": "Buena Vista St",
+    "to": "Brighton Rd",
+    "weekLabel": "2026 6-22 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-24|pemberton st|brighton road|aquatic way",
+    "category": "paving",
+    "date": "2026-06-24",
+    "weekday": "Wed",
+    "street": "Pemberton st",
+    "from": "Brighton Road",
+    "to": "Aquatic Way",
+    "weekLabel": "2026 6-22 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "ada|2026-06-25|n franklin st|sedgwick st,wittmer st",
+    "category": "ada",
+    "date": "2026-06-25",
+    "weekday": "Thu",
+    "street": "N Franklin st",
+    "intersections": [
+      "Sedgwick st",
+      "wittmer st"
+    ],
+    "weekLabel": "2026 6-22 ADA list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "ada|2026-06-25|sheffield st|bidwell st",
+    "category": "ada",
+    "date": "2026-06-25",
+    "weekday": "Thu",
+    "street": "Sheffield st",
+    "intersections": [
+      "Bidwell st"
+    ],
+    "weekLabel": "2026 6-22 ADA list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-25|penn ave|15th st|12th st",
+    "category": "milling",
+    "date": "2026-06-25",
+    "weekday": "Thu",
+    "street": "Penn Ave",
+    "from": "15th St",
+    "to": "12th ST",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "milling|2026-06-25|railroad st|31st st|eazor sq",
+    "category": "milling",
+    "date": "2026-06-25",
+    "weekday": "Thu",
+    "street": "Railroad St",
+    "from": "31st ST",
+    "to": "Eazor Sq",
+    "weekLabel": "2026 6-22 Milling list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-25|hertzog way|dead end|fleming ave",
+    "category": "paving",
+    "date": "2026-06-25",
+    "weekday": "Thu",
+    "street": "Hertzog Way",
+    "from": "Dead End",
+    "to": "Fleming Ave",
+    "weekLabel": "2026 6-22 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-25|mairdale ave|hewitt st|perrysville ave",
+    "category": "paving",
+    "date": "2026-06-25",
+    "weekday": "Thu",
+    "street": "Mairdale Ave",
+    "from": "Hewitt St",
+    "to": "Perrysville Ave",
+    "weekLabel": "2026 6-22 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  },
+  {
+    "id": "paving|2026-06-25|orchlee st|brighton rd|fleming ave",
+    "category": "paving",
+    "date": "2026-06-25",
+    "weekday": "Thu",
+    "street": "Orchlee ST",
+    "from": "Brighton Rd",
+    "to": "Fleming Ave",
+    "weekLabel": "2026 6-22 Paving list",
+    "firstSeen": "2026-06-20T10:15:31.442Z",
+    "lastSeen": "2026-06-20T10:17:26.368Z"
+  }
+]

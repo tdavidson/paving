@@ -1,0 +1,39 @@
+{
+  "name": "pgh-paving-map",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "ingest": "tsx scripts/ingest.mts",
+    "geocode": "tsx scripts/prebuild-geocode.mts"
+  },
+  "dependencies": {
+    "@radix-ui/react-checkbox": "^1.3.5",
+    "@radix-ui/react-label": "^2.1.10",
+    "@radix-ui/react-slider": "^1.4.1",
+    "@radix-ui/react-slot": "^1.3.0",
+    "@turf/turf": "^7.1.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.21.0",
+    "next": "^14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/google.maps": "^3.58.1",
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^3.4.19",
+    "tsx": "^4.19.1",
+    "typescript": "^5.5.4"
+  }
+}
