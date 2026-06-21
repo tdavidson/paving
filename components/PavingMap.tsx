@@ -361,76 +361,93 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
 
         {/* Row 2: layer selectors + date controls */}
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-          {(Object.keys(COLORS) as Category[]).map((c) => (
-            <div key={c} className="flex items-center gap-2">
+          {(Object.keys(COLORS) as Category[]).map((c) => {
+            const swatch = (
+              <span className="inline-block h-3 w-3 rounded-sm" style={{ background: COLORS[c] }} />
+            );
+            const box = (
               <Checkbox
                 id={`cat-${c}`}
                 checked={cats[c]}
+                aria-label={LABELS[c]}
                 onCheckedChange={(v) => setCats((prev) => ({ ...prev, [c]: v === true }))}
               />
-              <Label htmlFor={`cat-${c}`} className="flex cursor-pointer items-center gap-1.5">
-                <span className="inline-block h-3 w-3 rounded-sm" style={{ background: COLORS[c] }} />
-                {LABELS[c]}
-              </Label>
-            </div>
-          ))}
+            );
 
-          {/* Construction work-type facet — only relevant when construction is shown. */}
-          {cats.construction && (
-            <Popover open={workTypeOpen} onOpenChange={setWorkTypeOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  className="h-7 gap-1.5 px-2 text-xs"
-                >
-                  Work type{" "}
-                  <span className="text-muted-foreground">
-                    ({selectedWorkGroups}/{WORK_GROUPS.length})
-                  </span>
-                  <ChevronDown className="h-3.5 w-3.5" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent align="start" className="w-64 p-2">
-                <div className="flex items-center justify-between px-1 pb-1.5">
-                  <span className="text-xs font-medium text-muted-foreground">
-                    Construction work type
-                  </span>
-                  <button
-                    type="button"
-                    className="text-xs text-muted-foreground hover:text-foreground"
-                    onClick={() =>
-                      setWorkGroups(
-                        Object.fromEntries(WORK_GROUPS.map((g) => [g.key, !allWorkGroupsOn])),
-                      )
-                    }
-                  >
-                    {allWorkGroupsOn ? "Clear all" : "Select all"}
-                  </button>
+            // Construction folds its work-type facet into the same control: the
+            // checkbox toggles the layer, the label+chevron opens the buckets.
+            if (c === "construction") {
+              return (
+                <div key={c} className="flex items-center gap-2">
+                  {box}
+                  <Popover open={workTypeOpen} onOpenChange={setWorkTypeOpen}>
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        className="flex cursor-pointer items-center gap-1.5 text-sm"
+                      >
+                        {swatch}
+                        {LABELS[c]}
+                        {!allWorkGroupsOn && (
+                          <span className="text-muted-foreground">
+                            ({selectedWorkGroups}/{WORK_GROUPS.length})
+                          </span>
+                        )}
+                        <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent align="start" className="w-64 p-2">
+                      <div className="flex items-center justify-between px-1 pb-1.5">
+                        <span className="text-xs font-medium text-muted-foreground">
+                          Construction work type
+                        </span>
+                        <button
+                          type="button"
+                          className="text-xs text-muted-foreground hover:text-foreground"
+                          onClick={() =>
+                            setWorkGroups(
+                              Object.fromEntries(WORK_GROUPS.map((g) => [g.key, !allWorkGroupsOn])),
+                            )
+                          }
+                        >
+                          {allWorkGroupsOn ? "Clear all" : "Select all"}
+                        </button>
+                      </div>
+                      {WORK_GROUPS.map((g) => (
+                        <Label
+                          key={g.key}
+                          htmlFor={`wg-${g.key}`}
+                          className="flex cursor-pointer items-center gap-2 rounded px-1 py-1.5 hover:bg-muted"
+                        >
+                          <Checkbox
+                            id={`wg-${g.key}`}
+                            checked={workGroups[g.key]}
+                            onCheckedChange={(v) =>
+                              setWorkGroups((prev) => ({ ...prev, [g.key]: v === true }))
+                            }
+                          />
+                          <span className="flex-1 text-sm">{g.label}</span>
+                          <span className="text-xs tabular-nums text-muted-foreground">
+                            {constructionCounts[g.key]}
+                          </span>
+                        </Label>
+                      ))}
+                    </PopoverContent>
+                  </Popover>
                 </div>
-                {WORK_GROUPS.map((g) => (
-                  <Label
-                    key={g.key}
-                    htmlFor={`wg-${g.key}`}
-                    className="flex cursor-pointer items-center gap-2 rounded px-1 py-1.5 hover:bg-muted"
-                  >
-                    <Checkbox
-                      id={`wg-${g.key}`}
-                      checked={workGroups[g.key]}
-                      onCheckedChange={(v) =>
-                        setWorkGroups((prev) => ({ ...prev, [g.key]: v === true }))
-                      }
-                    />
-                    <span className="flex-1 text-sm">{g.label}</span>
-                    <span className="text-xs tabular-nums text-muted-foreground">
-                      {constructionCounts[g.key]}
-                    </span>
-                  </Label>
-                ))}
-              </PopoverContent>
-            </Popover>
-          )}
+              );
+            }
+
+            return (
+              <div key={c} className="flex items-center gap-2">
+                {box}
+                <Label htmlFor={`cat-${c}`} className="flex cursor-pointer items-center gap-1.5">
+                  {swatch}
+                  {LABELS[c]}
+                </Label>
+              </div>
+            );
+          })}
 
           {/* Google's live traffic layer. */}
           <div className="flex items-center gap-2">
