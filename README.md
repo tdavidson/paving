@@ -20,6 +20,16 @@ older weeks. A scheduled ingest stamps every row with its real calendar date and
 appends it to `data/archive.json`, so the map accumulates a full season of dated
 history instead of resetting every Monday.
 
+The city's data stops at the city line. A separate **PennDOT projects** layer
+(off by default) fills in the rest of Allegheny County: road and bridge work on
+state-maintained roads, pulled live from PennDOT's public
+[PA Projects](https://gis.penndot.gov/paprojects/construction-map) ArcGIS
+service. We show only projects currently *under construction* in Allegheny
+County (~400). Like the construction layer it already carries geometry, so it's
+drawn directly with no geocoding. Toggling it on widens the map to the whole
+county. The service and county are overridable via `PENNDOT_PROJECTS_URL` /
+`PENNDOT_PROJECTS_COUNTY` in `.env`.
+
 ## How it works
 
 ```

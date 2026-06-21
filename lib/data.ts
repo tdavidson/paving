@@ -3,6 +3,7 @@ import path from "node:path";
 import type { Feature, FeatureCollection } from "geojson";
 import { fetchSchedule } from "./sheet";
 import { fetchConstructionFeatures } from "./closures";
+import { fetchProjectFeatures } from "./paprojects";
 import { resolveSegment, resolveIntersections, normalizeStreet } from "./geocode";
 import { idFor, loadArchiveItems } from "./archive";
 import type { Category, GeocodeCache, PavingFeatureProps, ScheduleItem } from "./types";
@@ -72,6 +73,9 @@ export async function loadAllItems(): Promise<ScheduleItem[]> {
  *   ("construction") layer and append it. These features ship their own
  *   geometry, so they skip geocoding and never touch `cache`/`unresolved`. The
  *   geocode/ingest scripts leave this off so they only manage the schedule.
+ * @param includeProjects when true, also fetch the live PennDOT "projects"
+ *   layer (county-wide under-construction projects). Like construction, it
+ *   ships geometry and is additive/best-effort, so it skips geocoding too.
  */
 export async function buildCollection(
   opts: {
@@ -80,6 +84,7 @@ export async function buildCollection(
     maxLive?: number;
     items?: ScheduleItem[];
     includeConstruction?: boolean;
+    includeProjects?: boolean;
   } = {}
 ): Promise<BuildResult & { cache: GeocodeCache }> {
   const cache: GeocodeCache = opts.cache ?? loadCache();
@@ -126,10 +131,13 @@ export async function buildCollection(
     }
   }
 
-  if (opts.includeConstruction) {
-    // Additive and best-effort: a closures outage must not blank the schedule.
-    features.push(...(await fetchConstructionFeatures()));
-  }
+  // Additive and best-effort: an outage in either live layer must not blank
+  // the schedule. fetch* never throw — they log and return [] on failure.
+  const [construction, projects] = await Promise.all([
+    opts.includeConstruction ? fetchConstructionFeatures() : Promise.resolve([]),
+    opts.includeProjects ? fetchProjectFeatures() : Promise.resolve([]),
+  ]);
+  features.push(...construction, ...projects);
 
   return { collection: { type: "FeatureCollection", features }, unresolved, cache };
 }

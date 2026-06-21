@@ -23,12 +23,14 @@ const COLORS: Record<Category, string> = {
   paving: "#3e63a4",
   ada: "#c95274",
   construction: "#e67c14",
+  paprojects: "#7c3aed",
 };
 const LABELS: Record<Category, string> = {
   milling: "Milling",
   paving: "Paving",
   ada: "ADA curb ramps",
   construction: "Construction",
+  paprojects: "PennDOT projects",
 };
 const PITTSBURGH = { lat: 40.4406, lng: -79.9959 };
 
@@ -84,10 +86,11 @@ function isoToIndex(iso: string, days: string[], side: "lo" | "hi"): number {
   return 0;
 }
 
-// Schedule items have a single `date`; construction closures span [date, endDate]
-// and are shown whenever that range overlaps the selected [from, to] window.
+// Schedule items have a single `date`; construction closures and PennDOT
+// projects span [date, endDate] and are shown whenever that range overlaps the
+// selected [from, to] window.
 function inWindow(p: any, from: string, to: string): boolean {
-  if (p.category === "construction") {
+  if (p.category === "construction" || p.category === "paprojects") {
     const start = p.date || "0000-00-00";
     const end = p.endDate || "9999-12-31";
     return start <= to && end >= from;
@@ -109,6 +112,9 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
     paving: true,
     ada: true,
     construction: true,
+    // PennDOT projects are county-wide; default off so the initial view stays
+    // city-centric. Toggling it on widens the map to the whole county.
+    paprojects: false,
   });
   // Active date window as ISO [from, to] — the single source of truth. The
   // slider, the week presets, and the calendar all just set this.
@@ -176,7 +182,9 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
     const set = new Set<string>();
     for (const f of data.features) {
       const p = f.properties as any;
-      if (p.category === "construction") continue;
+      // Range layers (construction, paprojects) often start months back and
+      // would stretch the slider; they're range-filtered in inWindow instead.
+      if (p.category === "construction" || p.category === "paprojects") continue;
       if (p.date) set.add(p.date);
     }
     return Array.from(set).sort();
@@ -252,8 +260,9 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
       if (fromDate && toDate && !inWindow(p, fromDate, toDate)) continue;
       const color = COLORS[cat];
 
+      const spansRange = cat === "construction" || cat === "paprojects";
       const when =
-        cat === "construction" && p.endDate && p.endDate !== p.date
+        spansRange && p.endDate && p.endDate !== p.date
           ? `${fmtDate(p.date)} – ${fmtDate(p.endDate)}`
           : fmtDate(p.date);
       const gray = (s: string) => `<br/><span style="color:#6b7280">${escapeHtml(s)}</span>`;
@@ -270,6 +279,9 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
           .join(" · ");
         if (permitBits) extra += gray(permitBits);
         if (p.notes) extra += gray(p.notes);
+      } else if (cat === "paprojects") {
+        if (p.detail) extra += gray(p.detail);
+        if (p.contractor) extra += gray(`Project manager: ${p.contractor}`);
       } else if (p.label && p.label !== p.street) {
         extra += gray(p.label);
       }
@@ -675,6 +687,22 @@ function AboutModal({ onClose }: { onClose: () => void }) {
                 <strong className="text-foreground">Construction</strong> is fetched live from the
                 WPRDC closures feed, which already ships geometry, so it skips geocoding entirely.
                 Only currently-active closures are shown.
+              </li>
+              <li>
+                <strong className="text-foreground">PennDOT projects</strong> (off by default) adds
+                county-wide road &amp; bridge work on state-maintained roads, pulled live from
+                PennDOT&apos;s public{" "}
+                <a
+                  href="https://gis.penndot.gov/paprojects/construction-map"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 hover:text-foreground"
+                >
+                  PA Projects
+                </a>{" "}
+                map — only those under construction in Allegheny County. The city sheet and DOMI
+                permits stop at the city line, so this fills in the rest of the county. Toggling it
+                on widens the map to the whole county.
               </li>
               <li>
                 Filter by work type and by day: use the week presets, the slider, or pick an
