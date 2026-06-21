@@ -7,6 +7,7 @@ const COLORS: Record<Category, string> = {
   paving: "ff111827", // near-black
   ada: "ff7c3aed", // purple
   construction: "ff147ce6", // amber/orange (#e67c14)
+  paprojects: "ffed3a7c", // violet (#7c3aed)
 };
 
 const LABELS: Record<Category, string> = {
@@ -14,6 +15,7 @@ const LABELS: Record<Category, string> = {
   paving: "Paving",
   ada: "ADA curb ramps",
   construction: "Construction (street closures)",
+  paprojects: "PennDOT projects (Allegheny Co.)",
 };
 
 function esc(s: string): string {
@@ -34,12 +36,12 @@ export function toKml(fc: FeatureCollection, title = "Pittsburgh Paving Schedule
   const placemarks = fc.features
     .map((f) => {
       const p = f.properties as PavingFeatureProps;
+      const spansRange = p.category === "construction" || p.category === "paprojects";
       const when =
-        p.category === "construction" && p.endDate && p.endDate !== p.date
+        spansRange && p.endDate && p.endDate !== p.date
           ? `${esc(p.date)} – ${esc(p.endDate)}`
           : `${esc(p.date)} (${esc(p.weekday)})`;
-      const extra =
-        p.category === "construction" && p.detail ? ` — ${esc(p.detail)}` : "";
+      const extra = spansRange && p.detail ? ` — ${esc(p.detail)}` : "";
       const desc = `${LABELS[p.category]} — ${when}${p.approx ? " — approximate" : ""}${extra}`;
       const geom = f.geometry;
       let geomXml = "";

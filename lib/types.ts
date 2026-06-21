@@ -1,4 +1,4 @@
-export type Category = "milling" | "paving" | "ada" | "construction";
+export type Category = "milling" | "paving" | "ada" | "construction" | "paprojects";
 
 /** A single scheduled item parsed out of one of the sheet tabs. */
 export interface ScheduleItem {
@@ -32,23 +32,23 @@ export interface PavingFeatureProps {
   category: Category;
   /**
    * For milling/paving/ada: the single work date. For construction (a DOMI
-   * street closure that spans a range) this is the start date (`from_date`);
-   * see `endDate` for the other end.
+   * street closure) and paprojects (a PennDOT project) this is the start date
+   * of a range; see `endDate` for the other end.
    */
   date: string;
   weekday: string;
   street: string;
   label: string;
   approx: boolean;
-  /** Construction only: closure end date (`to_date`), if known. */
+  /** Construction/paprojects: end date (closure `to_date` / project completion), if known. */
   endDate?: string;
-  /** Construction only: permit type + closure scope + work blurb for the popup. */
+  /** Construction/paprojects: type + scope + work blurb for the popup. */
   detail?: string;
   /** Construction only: whether the city currently flags the closure active. */
   active?: boolean;
   /** Construction only: the DOMI permit id, e.g. "DOMI-GEN-2022-09644". */
   permitId?: string;
-  /** Construction only: the business/entity performing the work. */
+  /** Construction: the business/entity performing the work. Paprojects: the PennDOT project manager. */
   contractor?: string;
   /** Construction only: hours the closure is in effect (weekday/weekend). */
   hours?: string;
