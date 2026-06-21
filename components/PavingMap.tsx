@@ -644,7 +644,7 @@ function AboutModal({ onClose }: { onClose: () => void }) {
           </p>
           <p>
             The schedule covers only planned resurfacing. Most of the construction you see on the
-            street — utility cuts, road openings, contractor work — is permitted separately by the{" "}
+            street (utility cuts, road openings, contractor work) is permitted separately by the{" "}
             Department of Mobility &amp; Infrastructure (DOMI) and published as the{" "}
             <a
               href="https://data.wprdc.org/dataset/street-closures"
@@ -672,11 +672,11 @@ function AboutModal({ onClose }: { onClose: () => void }) {
               </li>
               <li>
                 <strong className="text-foreground">Construction</strong> is fetched live from the
-                WPRDC closures feed, which already ships geometry — so it skips geocoding entirely.
+                WPRDC closures feed, which already ships geometry, so it skips geocoding entirely.
                 Only currently-active closures are shown.
               </li>
               <li>
-                Filter by work type and by day — use the week presets, the slider, or pick an
+                Filter by work type and by day: use the week presets, the slider, or pick an
                 individual day from the calendar. Toggle <em>Live traffic</em> to see closures
                 against Google&apos;s real-time traffic.
               </li>
