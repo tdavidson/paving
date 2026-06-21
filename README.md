@@ -1,7 +1,7 @@
 # Pittsburgh Paving Schedule Map
 
 An unofficial, auto-updating map of the City of Pittsburgh's milling, paving, and
-ADA curb-ramp schedule, plus active street-closure **construction** permits. It
+ADA curb-ramp schedule plus active street-closure **construction** permits. It
 reads the city's own published Google Sheet live, so the map reflects whatever
 the city last published, and lets you filter by day and by work type (milling /
 paving / ADA / construction).
@@ -19,9 +19,6 @@ The city's sheet only shows a rolling "this week / past week" window and drops
 older weeks. A scheduled ingest stamps every row with its real calendar date and
 appends it to `data/archive.json`, so the map accumulates a full season of dated
 history instead of resetting every Monday.
-
-Built with Next.js + Tailwind + shadcn/ui + Google Maps, deployable to Vercel. No
-database — history lives in a committed JSON file (see "Storing the history").
 
 ## How it works
 
@@ -53,7 +50,7 @@ It's only pulled by the API routes (`includeConstruction: true`); the
 geocode/ingest scripts stay schedule-only, so it never touches the geocode cache
 or archive.
 
-The source sheet is the one embedded on
+The source sheet for the paving and milling is embedded on
 <https://www.pittsburghpa.gov/Resident-Services/Road-Maintenance/Paving-Schedule>.
 It is a rolling window — "this week" and "past week" for milling and paving, plus
 "this week" for ADA — so the map shows everything currently in the sheet and stays
@@ -78,8 +75,8 @@ key:
 3. Restrict it to your domains (`localhost`, `*.vercel.app`, your real domain).
 4. Put it in `.env` as `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=...`
 
-Geocoding does **not** use Google — it uses Pittsburgh's public GIS centerline,
-and the construction layer ships its own geometry — so the only Google cost is
+Geocoding does **not** use Google. Tt uses Pittsburgh's public GIS centerline,
+and the construction layer ships its own geometry so the only Google cost is
 map loads.
 
 ## Shareable overlay (Google My Maps)

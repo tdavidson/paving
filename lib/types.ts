@@ -46,6 +46,18 @@ export interface PavingFeatureProps {
   detail?: string;
   /** Construction only: whether the city currently flags the closure active. */
   active?: boolean;
+  /** Construction only: the DOMI permit id, e.g. "DOMI-GEN-2022-09644". */
+  permitId?: string;
+  /** Construction only: the business/entity performing the work. */
+  contractor?: string;
+  /** Construction only: hours the closure is in effect (weekday/weekend). */
+  hours?: string;
+  /** Construction only: which segment of a multi-segment permit, e.g. "1 of 3". */
+  segment?: string;
+  /** Construction only: free-text special instructions for this closure. */
+  notes?: string;
+  /** Construction only: work-type bucket key (see lib/workTypes.ts) for filtering. */
+  workGroup?: string;
 }
 
 export type GeocodeCache = Record<

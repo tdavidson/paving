@@ -1,5 +1,6 @@
 import type { Feature } from "geojson";
 import type { PavingFeatureProps } from "./types";
+import { workGroupForPermitType } from "./workTypes";
 
 /**
  * Live "construction" layer: the City of Pittsburgh's DOMI street-closure
@@ -26,8 +27,15 @@ const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 interface ClosureRow {
   closure_id?: string;
+  permit_id?: string;
   permit_type?: string;
   work_description?: string;
+  work_type?: string;
+  contractor_name?: string;
+  applicant_name?: string;
+  special_instructions?: string;
+  weekday_hours?: string;
+  weekend_hours?: string;
   primary_street?: string;
   from_street?: string;
   to_street?: string;
@@ -37,7 +45,10 @@ interface ClosureRow {
   full_closure?: boolean | string;
   travel_lane?: boolean | string;
   parking_lane?: boolean | string;
+  metered_parking?: boolean | string;
   sidewalk?: boolean | string;
+  segment_num?: number | string;
+  total_segments?: number | string;
   geometry?: string;
 }
 
@@ -48,9 +59,11 @@ interface ClosureRow {
  */
 export async function fetchConstructionFeatures(): Promise<Feature[]> {
   const cols =
-    "closure_id, permit_type, work_description, primary_street, from_street, " +
-    "to_street, from_date, to_date, active, full_closure, travel_lane, " +
-    "parking_lane, sidewalk, geometry";
+    "closure_id, permit_id, permit_type, work_description, work_type, " +
+    "contractor_name, applicant_name, special_instructions, weekday_hours, " +
+    "weekend_hours, primary_street, from_street, to_street, from_date, to_date, " +
+    "active, full_closure, travel_lane, parking_lane, metered_parking, sidewalk, " +
+    "segment_num, total_segments, geometry";
   const sql =
     `SELECT ${cols} FROM "${RESOURCE_ID}" ` +
     `WHERE active = true AND geometry IS NOT NULL LIMIT ${MAX_ROWS}`;
@@ -134,13 +147,57 @@ function toProps(r: ClosureRow): PavingFeatureProps {
     endDate,
     detail: buildDetail(r),
     active: bool(r.active),
+    permitId: (r.permit_id || "").trim() || undefined,
+    contractor: buildContractor(r),
+    hours: buildHours(r),
+    segment: buildSegment(r),
+    notes: buildNotes(r),
+    workGroup: workGroupForPermitType(r.permit_type),
   };
 }
 
-/** Human-readable popup blurb: permit type · closure scope · work description. */
+/** "People's Gas", falling back to the applicant when no contractor is listed. */
+function buildContractor(r: ClosureRow): string | undefined {
+  const contractor = (r.contractor_name || "").trim();
+  if (contractor) return titleCase(contractor);
+  const applicant = (r.applicant_name || "").trim();
+  return applicant ? titleCase(applicant) : undefined;
+}
+
+/** Combine the separate weekday/weekend hour fields into one popup line. */
+function buildHours(r: ClosureRow): string | undefined {
+  const weekday = (r.weekday_hours || "").trim();
+  const weekend = (r.weekend_hours || "").trim();
+  if (weekday && weekend) {
+    return weekday === weekend
+      ? weekday
+      : `${weekday} (weekdays), ${weekend} (weekends)`;
+  }
+  if (weekday) return weekday;
+  if (weekend) return `${weekend} (weekends)`;
+  return undefined;
+}
+
+/** "1 of 3" for a multi-segment permit; nothing for single-segment closures. */
+function buildSegment(r: ClosureRow): string | undefined {
+  const num = Number(r.segment_num);
+  const total = Number(r.total_segments);
+  if (!Number.isFinite(num) || !Number.isFinite(total) || total <= 1) return undefined;
+  return `${num} of ${total}`;
+}
+
+/** Trimmed special-instructions text for the popup, if present. */
+function buildNotes(r: ClosureRow): string | undefined {
+  const notes = (r.special_instructions || "").trim();
+  return notes ? sentenceCase(notes) : undefined;
+}
+
+/** Human-readable popup blurb: work type · closure scope · work description. */
 function buildDetail(r: ClosureRow): string {
   const parts: string[] = [];
-  const type = (r.permit_type || "").trim();
+  // Prefer the structured `work_type` ("Utility opening") over `permit_type`
+  // ("General permit"), which is rarely informative; fall back to it.
+  const type = (r.work_type || r.permit_type || "").trim();
   if (type) parts.push(titleCase(type));
 
   const scope: string[] = [];
@@ -148,6 +205,7 @@ function buildDetail(r: ClosureRow): string {
   else {
     if (bool(r.travel_lane)) scope.push("travel lane");
     if (bool(r.parking_lane)) scope.push("parking lane");
+    if (bool(r.metered_parking)) scope.push("metered parking");
     if (bool(r.sidewalk)) scope.push("sidewalk");
   }
   if (scope.length) parts.push(scope.join(" + "));
@@ -156,6 +214,12 @@ function buildDetail(r: ClosureRow): string {
   if (desc) parts.push(sentenceCase(desc));
 
   return parts.join(" · ");
+}
+
+/** The canonical work-type label for a row, used for filtering/grouping. */
+export function workTypeLabel(r: ClosureRow): string {
+  const type = (r.work_type || r.permit_type || "").trim();
+  return type ? titleCase(type) : "Other";
 }
 
 function isoDate(s?: string): string {

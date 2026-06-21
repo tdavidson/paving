@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, ChevronDown } from "lucide-react";
 import type { Category } from "@/lib/types";
+import { WORK_GROUPS } from "@/lib/workTypes";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -116,6 +117,11 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
   const [showAbout, setShowAbout] = useState(false);
   const [calOpen, setCalOpen] = useState(false);
   const [traffic, setTraffic] = useState(false);
+  // Which construction work-type buckets are shown (all on by default).
+  const [workGroups, setWorkGroups] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(WORK_GROUPS.map((g) => [g.key, true])),
+  );
+  const [workTypeOpen, setWorkTypeOpen] = useState(false);
 
   // Load data. Prefix with the base path so it works under a sub-path deploy too.
   useEffect(() => {
@@ -241,6 +247,7 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
       const p = f.properties as any;
       const cat = p.category as Category;
       if (!cats[cat]) continue;
+      if (cat === "construction" && !workGroups[p.workGroup || "other"]) continue;
       if (fromDate && toDate && !inWindow(p, fromDate, toDate)) continue;
       const color = COLORS[cat];
 
@@ -248,15 +255,26 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
         cat === "construction" && p.endDate && p.endDate !== p.date
           ? `${fmtDate(p.date)} – ${fmtDate(p.endDate)}`
           : fmtDate(p.date);
-      const detailLine =
-        cat === "construction" && p.detail
-          ? `<br/><span style="color:#6b7280">${escapeHtml(p.detail)}</span>`
-          : p.label && p.label !== p.street
-          ? `<br/><span style="color:#6b7280">${escapeHtml(p.label)}</span>`
-          : "";
+      const gray = (s: string) => `<br/><span style="color:#6b7280">${escapeHtml(s)}</span>`;
+      let extra = "";
+      if (cat === "construction") {
+        if (p.detail) extra += gray(p.detail);
+        if (p.hours) extra += gray(`Hours: ${p.hours}`);
+        if (p.contractor) extra += gray(`Contractor: ${p.contractor}`);
+        const permitBits = [
+          p.permitId ? `Permit ${p.permitId}` : "",
+          p.segment ? `segment ${p.segment}` : "",
+        ]
+          .filter(Boolean)
+          .join(" · ");
+        if (permitBits) extra += gray(permitBits);
+        if (p.notes) extra += gray(p.notes);
+      } else if (p.label && p.label !== p.street) {
+        extra += gray(p.label);
+      }
       const info = `<strong>${escapeHtml(p.street)}</strong><br/>${LABELS[cat]} — ${when}${
         p.approx ? " <em>(approx.)</em>" : ""
-      }${detailLine}`;
+      }${extra}`;
 
       if (f.geometry.type === "LineString") {
         const path = (f.geometry.coordinates as number[][]).map((c) => ({ lat: c[1], lng: c[0] }));
@@ -300,10 +318,27 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
       infoRef.current.setPosition(latLng as google.maps.LatLng);
       infoRef.current.open(map!);
     }
-  }, [data, cats, fromDate, toDate, ready]);
+  }, [data, cats, workGroups, fromDate, toDate, ready]);
 
   const lastUpdated = data?.meta?.generatedAt ? new Date(data.meta.generatedAt).toLocaleString() : null;
   const unresolved = data?.meta?.unresolved ?? [];
+
+  // Per-bucket construction counts for the work-type popover, reflecting the
+  // active date window so the numbers match what's actually drawn.
+  const constructionCounts = useMemo(() => {
+    const counts: Record<string, number> = Object.fromEntries(WORK_GROUPS.map((g) => [g.key, 0]));
+    for (const f of data?.features ?? []) {
+      const p = f.properties as any;
+      if (p.category !== "construction") continue;
+      if (fromDate && toDate && !inWindow(p, fromDate, toDate)) continue;
+      const g = p.workGroup || "other";
+      if (g in counts) counts[g]++;
+    }
+    return counts;
+  }, [data, fromDate, toDate]);
+
+  const selectedWorkGroups = WORK_GROUPS.filter((g) => workGroups[g.key]).length;
+  const allWorkGroupsOn = selectedWorkGroups === WORK_GROUPS.length;
 
   return (
     <div className="flex h-screen flex-col">
@@ -339,6 +374,63 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
               </Label>
             </div>
           ))}
+
+          {/* Construction work-type facet — only relevant when construction is shown. */}
+          {cats.construction && (
+            <Popover open={workTypeOpen} onOpenChange={setWorkTypeOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="h-7 gap-1.5 px-2 text-xs"
+                >
+                  Work type{" "}
+                  <span className="text-muted-foreground">
+                    ({selectedWorkGroups}/{WORK_GROUPS.length})
+                  </span>
+                  <ChevronDown className="h-3.5 w-3.5" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent align="start" className="w-64 p-2">
+                <div className="flex items-center justify-between px-1 pb-1.5">
+                  <span className="text-xs font-medium text-muted-foreground">
+                    Construction work type
+                  </span>
+                  <button
+                    type="button"
+                    className="text-xs text-muted-foreground hover:text-foreground"
+                    onClick={() =>
+                      setWorkGroups(
+                        Object.fromEntries(WORK_GROUPS.map((g) => [g.key, !allWorkGroupsOn])),
+                      )
+                    }
+                  >
+                    {allWorkGroupsOn ? "Clear all" : "Select all"}
+                  </button>
+                </div>
+                {WORK_GROUPS.map((g) => (
+                  <Label
+                    key={g.key}
+                    htmlFor={`wg-${g.key}`}
+                    className="flex cursor-pointer items-center gap-2 rounded px-1 py-1.5 hover:bg-muted"
+                  >
+                    <Checkbox
+                      id={`wg-${g.key}`}
+                      checked={workGroups[g.key]}
+                      onCheckedChange={(v) =>
+                        setWorkGroups((prev) => ({ ...prev, [g.key]: v === true }))
+                      }
+                    />
+                    <span className="flex-1 text-sm">{g.label}</span>
+                    <span className="text-xs tabular-nums text-muted-foreground">
+                      {constructionCounts[g.key]}
+                    </span>
+                  </Label>
+                ))}
+              </PopoverContent>
+            </Popover>
+          )}
 
           {/* Google's live traffic layer. */}
           <div className="flex items-center gap-2">
