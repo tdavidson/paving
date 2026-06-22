@@ -29,12 +29,14 @@ across Allegheny County:
   RCRS system). Unlike the project records below, these carry the actual
   closure **start/end dates**. The source is env-selectable
   (`PENNDOT_EVENTS_SOURCE=511|rcrs`): the default `511` path is open and needs
-  no key; `rcrs` is a seam for PennDOT's official RCRS Event Data API
-  (`liveEvents`/`plannedEvents`), which is cleaner and the only source with
-  reliable *planned* future closures — it needs a free
+  no key but shows mostly *active* events; `rcrs` uses PennDOT's official RCRS
+  Event Data API (`liveEvents`/`plannedEvents`), which is cleaner and the only
+  source with reliable *planned* future closures (a bridge announced to close
+  before it's active). The `rcrs` path is implemented but needs a free
   [data-feed credential](https://www.pa.gov/services/penndot/request-access-to-transportation-related-data-feeds)
-  and falls back to `511` until one is set. Restricted to an Allegheny bounding
-  box (`PENNDOT_EVENTS_BBOX`).
+  (`RCRS_EVENTS_URL` + `RCRS_USERNAME`/`RCRS_PASSWORD`); it falls back to `511`
+  until those are set, and on any request failure. Restricted to Allegheny by
+  county (or the `PENNDOT_EVENTS_BBOX` bounding box when an event has no county).
 - **PennDOT projects** (off by default) — road and bridge work on
   state-maintained roads, pulled live from PennDOT's public
   [PA Projects](https://gis.penndot.gov/paprojects/construction-map) ArcGIS
