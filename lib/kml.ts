@@ -8,6 +8,7 @@ const COLORS: Record<Category, string> = {
   ada: "ff7c3aed", // purple
   construction: "ff147ce6", // amber/orange (#e67c14)
   paprojects: "ffed3a7c", // violet (#7c3aed)
+  closures511: "ff2626dc", // red (#dc2626)
 };
 
 const LABELS: Record<Category, string> = {
@@ -16,6 +17,7 @@ const LABELS: Record<Category, string> = {
   ada: "ADA curb ramps",
   construction: "Construction (street closures)",
   paprojects: "PennDOT projects (Allegheny Co.)",
+  closures511: "Road closures (511PA)",
 };
 
 function esc(s: string): string {
@@ -36,7 +38,10 @@ export function toKml(fc: FeatureCollection, title = "Pittsburgh Paving Schedule
   const placemarks = fc.features
     .map((f) => {
       const p = f.properties as PavingFeatureProps;
-      const spansRange = p.category === "construction" || p.category === "paprojects";
+      const spansRange =
+        p.category === "construction" ||
+        p.category === "paprojects" ||
+        p.category === "closures511";
       const when =
         spansRange && p.endDate && p.endDate !== p.date
           ? `${esc(p.date)} – ${esc(p.endDate)}`

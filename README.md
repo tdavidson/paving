@@ -20,15 +20,32 @@ older weeks. A scheduled ingest stamps every row with its real calendar date and
 appends it to `data/archive.json`, so the map accumulates a full season of dated
 history instead of resetting every Monday.
 
-The city's data stops at the city line. A separate **PennDOT projects** layer
-(off by default) fills in the rest of Allegheny County: road and bridge work on
-state-maintained roads, pulled live from PennDOT's public
-[PA Projects](https://gis.penndot.gov/paprojects/construction-map) ArcGIS
-service. We show only projects currently *under construction* in Allegheny
-County (~400). Like the construction layer it already carries geometry, so it's
-drawn directly with no geocoding. Toggling it on widens the map to the whole
-county. The service and county are overridable via `PENNDOT_PROJECTS_URL` /
-`PENNDOT_PROJECTS_COUNTY` in `.env`.
+The city's data stops at the city line, so two PennDOT-sourced layers extend it
+across Allegheny County:
+
+- **Road closures** (on by default) — live PennDOT road *events* (active
+  roadwork, closed bridges, and route closures) across Pittsburgh and Allegheny
+  County, from [511PA](https://www.511pa.com/) (the public side of PennDOT's
+  RCRS system). Unlike the project records below, these carry the actual
+  closure **start/end dates**. The source is env-selectable
+  (`PENNDOT_EVENTS_SOURCE=511|rcrs`): the default `511` path is open and needs
+  no key; `rcrs` is a seam for PennDOT's official RCRS Event Data API
+  (`liveEvents`/`plannedEvents`), which is cleaner and the only source with
+  reliable *planned* future closures — it needs a free
+  [data-feed credential](https://www.pa.gov/services/penndot/request-access-to-transportation-related-data-feeds)
+  and falls back to `511` until one is set. Restricted to an Allegheny bounding
+  box (`PENNDOT_EVENTS_BBOX`).
+- **PennDOT projects** (off by default) — road and bridge work on
+  state-maintained roads, pulled live from PennDOT's public
+  [PA Projects](https://gis.penndot.gov/paprojects/construction-map) ArcGIS
+  service. We show only projects currently *under construction* in Allegheny
+  County (~400). These carry geometry but **no closure dates** — they say a
+  project exists, not when a road shuts. Toggling it on widens the map to the
+  whole county. Overridable via `PENNDOT_PROJECTS_URL` / `PENNDOT_PROJECTS_COUNTY`.
+
+The two noisier layers (PennDOT projects and the city's own DOMI
+**construction** permits) are additive and off by default, so the map opens on
+the schedule plus road closures.
 
 ## How it works
 

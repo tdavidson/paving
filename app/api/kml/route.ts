@@ -6,7 +6,11 @@ export const runtime = "nodejs";
 export const revalidate = 3600;
 
 export async function GET(req: Request) {
-  const { collection } = await buildCollection({ includeConstruction: true, includeProjects: true });
+  const { collection } = await buildCollection({
+    includeConstruction: true,
+    includeProjects: true,
+    includeEvents: true,
+  });
   const filtered = filterCollection(collection, parseFilters(req.url));
   const kml = toKml(filtered);
   return new Response(kml, {

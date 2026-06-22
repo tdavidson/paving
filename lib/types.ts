@@ -1,4 +1,4 @@
-export type Category = "milling" | "paving" | "ada" | "construction" | "paprojects";
+export type Category = "milling" | "paving" | "ada" | "construction" | "paprojects" | "closures511";
 
 /** A single scheduled item parsed out of one of the sheet tabs. */
 export interface ScheduleItem {

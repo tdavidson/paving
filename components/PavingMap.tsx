@@ -22,6 +22,7 @@ const COLORS: Record<Category, string> = {
   milling: "#56b58a",
   paving: "#3e63a4",
   ada: "#c95274",
+  closures511: "#dc2626",
   construction: "#e67c14",
   paprojects: "#7c3aed",
 };
@@ -29,9 +30,13 @@ const LABELS: Record<Category, string> = {
   milling: "Milling",
   paving: "Paving",
   ada: "ADA curb ramps",
+  closures511: "Road closures",
   construction: "Construction",
   paprojects: "PennDOT projects",
 };
+// Layers whose features span a [date, endDate] range (vs. the schedule's single
+// work date): they're filtered by range-overlap and kept off the day slider.
+const RANGE_CATEGORIES = new Set<Category>(["construction", "paprojects", "closures511"]);
 const PITTSBURGH = { lat: 40.4406, lng: -79.9959 };
 
 let mapsPromise: Promise<void> | null = null;
@@ -86,11 +91,11 @@ function isoToIndex(iso: string, days: string[], side: "lo" | "hi"): number {
   return 0;
 }
 
-// Schedule items have a single `date`; construction closures and PennDOT
-// projects span [date, endDate] and are shown whenever that range overlaps the
-// selected [from, to] window.
+// Schedule items have a single `date`; the range layers (construction, PennDOT
+// projects, road closures) span [date, endDate] and are shown whenever that
+// range overlaps the selected [from, to] window.
 function inWindow(p: any, from: string, to: string): boolean {
-  if (p.category === "construction" || p.category === "paprojects") {
+  if (RANGE_CATEGORIES.has(p.category)) {
     const start = p.date || "0000-00-00";
     const end = p.endDate || "9999-12-31";
     return start <= to && end >= from;
@@ -111,9 +116,13 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
     milling: true,
     paving: true,
     ada: true,
-    construction: true,
-    // PennDOT projects are county-wide; default off so the initial view stays
-    // city-centric. Toggling it on widens the map to the whole county.
+    // Road closures (PennDOT/511PA, Pittsburgh + Allegheny County) are the
+    // primary signal, so they're on by default.
+    closures511: true,
+    // The noisier layers are additive and off by default: DOMI city permits
+    // (construction) and county-wide PennDOT capital projects. Toggling
+    // projects on also widens the map to the whole county.
+    construction: false,
     paprojects: false,
   });
   // Active date window as ISO [from, to] — the single source of truth. The
@@ -182,9 +191,9 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
     const set = new Set<string>();
     for (const f of data.features) {
       const p = f.properties as any;
-      // Range layers (construction, paprojects) often start months back and
-      // would stretch the slider; they're range-filtered in inWindow instead.
-      if (p.category === "construction" || p.category === "paprojects") continue;
+      // Range layers often start months back and would stretch the slider;
+      // they're range-filtered in inWindow instead.
+      if (RANGE_CATEGORIES.has(p.category)) continue;
       if (p.date) set.add(p.date);
     }
     return Array.from(set).sort();
@@ -260,11 +269,13 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
       if (fromDate && toDate && !inWindow(p, fromDate, toDate)) continue;
       const color = COLORS[cat];
 
-      const spansRange = cat === "construction" || cat === "paprojects";
+      const spansRange = RANGE_CATEGORIES.has(cat);
       const when =
         spansRange && p.endDate && p.endDate !== p.date
           ? `${fmtDate(p.date)} – ${fmtDate(p.endDate)}`
-          : fmtDate(p.date);
+          : p.date
+            ? fmtDate(p.date)
+            : "ongoing";
       const gray = (s: string) => `<br/><span style="color:#6b7280">${escapeHtml(s)}</span>`;
       let extra = "";
       if (cat === "construction") {
@@ -282,6 +293,8 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
       } else if (cat === "paprojects") {
         if (p.detail) extra += gray(p.detail);
         if (p.contractor) extra += gray(`Project manager: ${p.contractor}`);
+      } else if (cat === "closures511") {
+        if (p.detail) extra += gray(p.detail);
       } else if (p.label && p.label !== p.street) {
         extra += gray(p.label);
       }
@@ -684,9 +697,25 @@ function AboutModal({ onClose }: { onClose: () => void }) {
                 misspells.
               </li>
               <li>
-                <strong className="text-foreground">Construction</strong> is fetched live from the
-                WPRDC closures feed, which already ships geometry, so it skips geocoding entirely.
-                Only currently-active closures are shown.
+                <strong className="text-foreground">Road closures</strong> (on by default) are live
+                PennDOT road events — roadwork, closed bridges, and route closures — across
+                Pittsburgh and Allegheny County, pulled from{" "}
+                <a
+                  href="https://www.511pa.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 hover:text-foreground"
+                >
+                  511PA
+                </a>{" "}
+                (the public side of PennDOT&apos;s RCRS system). Unlike the project records, these
+                carry the actual closure start/end dates.
+              </li>
+              <li>
+                <strong className="text-foreground">Construction</strong> (off by default) is the
+                City of Pittsburgh&apos;s DOMI street-closure permits, fetched live from the WPRDC
+                closures feed, which already ships geometry. Only currently-active closures are
+                shown. It overlaps the road-closures layer inside the city, so it&apos;s additive.
               </li>
               <li>
                 <strong className="text-foreground">PennDOT projects</strong> (off by default) adds

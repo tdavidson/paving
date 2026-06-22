@@ -4,6 +4,7 @@ import type { Feature, FeatureCollection } from "geojson";
 import { fetchSchedule } from "./sheet";
 import { fetchConstructionFeatures } from "./closures";
 import { fetchProjectFeatures } from "./paprojects";
+import { fetchPennDotEvents } from "./penndotEvents";
 import { resolveSegment, resolveIntersections, normalizeStreet } from "./geocode";
 import { idFor, loadArchiveItems } from "./archive";
 import type { Category, GeocodeCache, PavingFeatureProps, ScheduleItem } from "./types";
@@ -76,6 +77,9 @@ export async function loadAllItems(): Promise<ScheduleItem[]> {
  * @param includeProjects when true, also fetch the live PennDOT "projects"
  *   layer (county-wide under-construction projects). Like construction, it
  *   ships geometry and is additive/best-effort, so it skips geocoding too.
+ * @param includeEvents when true, also fetch the live "Road closures" layer
+ *   (PennDOT RCRS / 511PA road events across Allegheny County, incl. the city).
+ *   Ships geometry; additive/best-effort like the other live layers.
  */
 export async function buildCollection(
   opts: {
@@ -85,6 +89,7 @@ export async function buildCollection(
     items?: ScheduleItem[];
     includeConstruction?: boolean;
     includeProjects?: boolean;
+    includeEvents?: boolean;
   } = {}
 ): Promise<BuildResult & { cache: GeocodeCache }> {
   const cache: GeocodeCache = opts.cache ?? loadCache();
@@ -131,13 +136,14 @@ export async function buildCollection(
     }
   }
 
-  // Additive and best-effort: an outage in either live layer must not blank
-  // the schedule. fetch* never throw — they log and return [] on failure.
-  const [construction, projects] = await Promise.all([
+  // Additive and best-effort: an outage in any live layer must not blank the
+  // schedule. fetch* never throw — they log and return [] on failure.
+  const [construction, projects, events] = await Promise.all([
     opts.includeConstruction ? fetchConstructionFeatures() : Promise.resolve([]),
     opts.includeProjects ? fetchProjectFeatures() : Promise.resolve([]),
+    opts.includeEvents ? fetchPennDotEvents() : Promise.resolve([]),
   ]);
-  features.push(...construction, ...projects);
+  features.push(...construction, ...projects, ...events);
 
   return { collection: { type: "FeatureCollection", features }, unresolved, cache };
 }
