@@ -378,7 +378,20 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
       <header className="flex flex-col gap-2.5 border-b bg-background px-4 py-2.5">
         {/* Row 1: title + actions */}
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <h1 className="text-sm font-semibold tracking-tight">Pittsburgh Paving and Construction</h1>
+          <h1 className="text-sm font-semibold tracking-tight">
+            Pittsburgh Paving and Construction{" "}
+            <span className="font-normal text-muted-foreground">
+              by{" "}
+              <a
+                href="https://x.com/tdavidson"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-foreground"
+              >
+                @tdavidson
+              </a>
+            </span>
+          </h1>
           <div className="flex items-center gap-2 md:ml-auto">
             <Button
               type="button"
@@ -661,10 +674,14 @@ function AboutModal({ onClose }: { onClose: () => void }) {
             .
           </p>
           <p>
-            An unofficial, auto-updating map of the City of Pittsburgh&apos;s milling, paving, and
-            ADA curb-ramp schedule, plus active street-closure <strong>construction</strong>{" "}
-            permits. It reads the city&apos;s own published data live, so the map reflects whatever
-            the city last published. See the city&apos;s official{" "}
+            An unofficial, auto-updating map of road paving, street closures, and construction in the city of Pittsburgh and the surrounding area.
+          </p>
+          <div>
+            <h3 className="mb-1 text-xs font-semibold">How it works</h3>
+            <ul className="list-disc space-y-1 pl-4 text-muted-foreground">
+              <li>
+                <strong className="text-foreground">Paving / milling / ADA</strong> come from the city of
+                Pittsburgh&apos;s published Google Sheet. See the city&apos;s official{" "}
             <a
               href="https://www.pittsburghpa.gov/Resident-Services/Road-Maintenance/Paving-Schedule"
               target="_blank"
@@ -674,38 +691,15 @@ function AboutModal({ onClose }: { onClose: () => void }) {
               Paving Schedule page
             </a>
             .
-          </p>
-          <p>
-            The schedule covers only planned resurfacing. Most of the construction you see on the
-            street (utility cuts, road openings, contractor work) is permitted separately by the{" "}
-            Department of Mobility &amp; Infrastructure (DOMI) and published as the{" "}
-            <a
-              href="https://data.wprdc.org/dataset/street-closures"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-foreground"
-            >
-              DOMI Street Closures
-            </a>{" "}
-            dataset on the Western Pennsylvania Regional Data Center (WPRDC).
-          </p>
-
-          <div>
-            <h3 className="mb-1 text-xs font-semibold">How it works</h3>
-            <ul className="list-disc space-y-1 pl-4 text-muted-foreground">
-              <li>
-                <strong className="text-foreground">Paving / milling / ADA</strong> come from the
-                city&apos;s published Google Sheet. The rolling sheet only shows this/past week, so a
-                daily ingest stamps each row with its real date and keeps a growing history.
               </li>
               <li>
                 Those hand-typed streets are matched to geometry using the City of Pittsburgh GIS
-                centerline (no Google geocoding), with a typo-correction layer for names the sheet
+                centerline, with a typo-correction layer for names the sheet
                 misspells.
               </li>
               <li>
-                <strong className="text-foreground">Road closures</strong> (on by default) are live
-                PennDOT road events — roadwork, closed bridges, and route closures — across
+                <strong className="text-foreground">Road closures</strong> are live
+                PennDOT roadwork, closed bridges, and route closures across
                 Pittsburgh and Allegheny County, pulled from{" "}
                 <a
                   href="https://www.511pa.com/"
@@ -715,14 +709,20 @@ function AboutModal({ onClose }: { onClose: () => void }) {
                 >
                   511PA
                 </a>{" "}
-                (the public side of PennDOT&apos;s RCRS system). Unlike the project records, these
-                carry the actual closure start/end dates.
+                (the public side of PennDOT&apos;s RCRS system).
               </li>
               <li>
-                <strong className="text-foreground">Construction</strong> (off by default) is the
-                City of Pittsburgh&apos;s DOMI street-closure permits, fetched live from the WPRDC
-                closures feed, which already ships geometry. Only currently-active closures are
-                shown. It overlaps the road-closures layer inside the city, so it&apos;s additive.
+                <strong className="text-foreground">Construction</strong> is the
+                City of Pittsburgh&apos;s DOMI street-closure permits, permitted by the Department of Mobility &amp; Infrastructure (DOMI) and published as the{" "}
+            <a
+              href="https://data.wprdc.org/dataset/street-closures"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-foreground"
+            >
+              DOMI Street Closures
+            </a>{" "}
+            dataset on the Western Pennsylvania Regional Data Center (WPRDC).
               </li>
               <li>
                 <strong className="text-foreground">PennDOT projects</strong> (off by default) adds
@@ -736,9 +736,18 @@ function AboutModal({ onClose }: { onClose: () => void }) {
                 >
                   PA Projects
                 </a>{" "}
-                map — only those under construction in Allegheny County. The city sheet and DOMI
+                map, only those under construction in Allegheny County. The city sheet and DOMI
                 permits stop at the city line, so this fills in the rest of the county. Toggling it
-                on widens the map to the whole county.
+                on widens the map to the whole county. See PennDOT&apos;s{" "}
+                <a
+                  href="https://www.pa.gov/agencies/penndot/projects-near-you"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 hover:text-foreground"
+                >
+                  Projects Near You
+                </a>{" "}
+                page for more.
               </li>
               <li>
                 Filter by work type and by day: use the week presets, the slider, or pick an
