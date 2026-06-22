@@ -5,6 +5,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { CalendarIcon, ChevronDown } from "lucide-react";
 import type { Category } from "@/lib/types";
 import { WORK_GROUPS } from "@/lib/workTypes";
+import { RANGE_CATEGORIES } from "@/lib/categories";
+import { scheduleDays as computeScheduleDays, selectableDays } from "@/lib/dateWindow";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -34,9 +36,8 @@ const LABELS: Record<Category, string> = {
   construction: "Construction",
   paprojects: "PennDOT projects",
 };
-// Layers whose features span a [date, endDate] range (vs. the schedule's single
-// work date): they're filtered by range-overlap and kept off the day slider.
-const RANGE_CATEGORIES = new Set<Category>(["construction", "paprojects", "closures511"]);
+// The range-vs-schedule category split lives in lib/categories so the date
+// helpers (lib/dateWindow) can share it.
 const PITTSBURGH = { lat: 40.4406, lng: -79.9959 };
 
 let mapsPromise: Promise<void> | null = null;
@@ -182,22 +183,18 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
     }
   }, [traffic, ready]);
 
-  // The day slider is driven by the schedule (milling/paving/ada), which has one
-  // work date per item. Construction closures span ranges that often start months
-  // back, so they're excluded here (they'd stretch the slider) and instead
-  // filtered by range-overlap below.
-  const days = useMemo(() => {
-    if (!data) return [];
-    const set = new Set<string>();
-    for (const f of data.features) {
-      const p = f.properties as any;
-      // Range layers often start months back and would stretch the slider;
-      // they're range-filtered in inWindow instead.
-      if (RANGE_CATEGORIES.has(p.category)) continue;
-      if (p.date) set.add(p.date);
-    }
-    return Array.from(set).sort();
-  }, [data]);
+  // Schedule work-days (milling/paving/ada) anchor the default "this week" view
+  // and the calendar's "has work" bolding.
+  const scheduleDays = useMemo(() => (data ? computeScheduleDays(data.features) : []), [data]);
+
+  // The slider/preset domain: schedule days plus any *future* closure/project
+  // start dates, so upcoming items that begin after the schedule ends are
+  // reachable (ongoing ones are handled by range-overlap in inWindow). See
+  // lib/dateWindow for the rationale.
+  const days = useMemo(
+    () => (data ? selectableDays(data.features, isoOf(new Date())) : []),
+    [data]
+  );
 
   const fullSpan = useMemo<[string, string] | null>(
     () => (days.length ? [days[0], days[days.length - 1]] : null),
@@ -232,6 +229,13 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
       label: string;
       range: [string, string] | null;
     }[];
+    // "Upcoming": today through the furthest known future date. Surfaces
+    // closures/projects that start after this week. Shown only when the data
+    // actually extends past next week (i.e. there are future-dated range items).
+    const nextWeekEnd = isoOf(addDays(mon, 13));
+    if (fullSpan && fullSpan[1] > nextWeekEnd) {
+      list.push({ label: "Upcoming", range: [isoOf(new Date()), fullSpan[1]] });
+    }
     if (fullSpan) list.push({ label: "All", range: fullSpan });
     return list;
   }, [days, fullSpan]);
@@ -249,7 +253,10 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
 
   const selectedDay =
     dateWin && dateWin[0] === dateWin[1] ? new Date(dateWin[0] + "T00:00:00") : undefined;
-  const workDays = useMemo(() => days.map((d) => new Date(d + "T00:00:00")), [days]);
+  const workDays = useMemo(
+    () => scheduleDays.map((d) => new Date(d + "T00:00:00")),
+    [scheduleDays]
+  );
 
   // Draw / redraw on any change.
   useEffect(() => {

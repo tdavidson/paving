@@ -62,19 +62,212 @@ export async function fetchPennDotEvents(): Promise<Feature[]> {
 }
 
 /**
- * Official PennDOT RCRS Event Data API (liveEvents/plannedEvents) — the clean,
- * structured path and the only one with reliable *planned* future closures.
- * It needs a provisioned data-feed credential (RCRS_EVENTS_URL / RCRS_USERNAME
- * / RCRS_PASSWORD). Until those exist we fall back to the open 511PA path so
- * the layer still works; wiring the real request is a follow-up.
+ * Official PennDOT RCRS Event Data API (liveEvents / plannedEvents) — the clean,
+ * structured path and the only source with reliable *planned* future closures
+ * (a bridge announced to close before it's active). Needs a provisioned
+ * data-feed credential:
+ *   RCRS_EVENTS_URL    base url of the RCRS_Event_Data service (no trailing /)
+ *   RCRS_USERNAME / RCRS_PASSWORD    HTTP Basic Auth
+ *   RCRS_EVENTS_METHODS   optional CSV (default "liveEvents,plannedEvents")
+ *
+ * IMPORTANT: PennDOT does not publish the JSON field names, so the normalizer
+ * below (normalizeRcrsEvent) is intentionally tolerant — it tries several key
+ * spellings (case-insensitive) for each field. It MUST be verified against a
+ * real response once credentials land; on a parse miss it logs the first
+ * record's keys to make that a one-line adjustment. Until the url/creds exist,
+ * and on any hard request failure, we fall back to the open 511PA path so the
+ * layer still renders.
  */
 async function fetchFromRcrs(): Promise<Feature[]> {
-  if (!process.env.RCRS_USERNAME || !process.env.RCRS_PASSWORD) {
-    console.warn("PennDOT events: RCRS source selected but no creds set; using open 511PA.");
-  } else {
-    console.warn("PennDOT events: RCRS source not yet implemented; using open 511PA.");
+  const base = process.env.RCRS_EVENTS_URL;
+  const user = process.env.RCRS_USERNAME;
+  const pass = process.env.RCRS_PASSWORD;
+  if (!base || !user || !pass) {
+    console.warn(
+      "PennDOT events: RCRS not fully configured (need RCRS_EVENTS_URL/USERNAME/PASSWORD); using open 511PA."
+    );
+    return fetchFrom511();
   }
-  return fetchFrom511();
+
+  const methods = (process.env.RCRS_EVENTS_METHODS || "liveEvents,plannedEvents")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const auth = "Basic " + Buffer.from(`${user}:${pass}`).toString("base64");
+
+  try {
+    const batches = await Promise.all(methods.map((m) => fetchRcrsMethod(base, m, auth)));
+    return batches.flat();
+  } catch (err) {
+    console.warn("PennDOT events: RCRS request failed, using open 511PA:", (err as Error).message);
+    return fetchFrom511();
+  }
+}
+
+async function fetchRcrsMethod(base: string, method: string, auth: string): Promise<Feature[]> {
+  const res = await fetch(`${base.replace(/\/$/, "")}/${method}`, {
+    headers: { Authorization: auth, Accept: "application/json", "User-Agent": "pgh-paving-map/1.0" },
+    next: { revalidate: 3600 },
+  } as RequestInit);
+  if (!res.ok) throw new Error(`${method} HTTP ${res.status}`);
+  const json: any = await res.json();
+  const records: any[] = Array.isArray(json)
+    ? json
+    : json?.events ?? json?.Events ?? json?.data ?? json?.result ?? [];
+
+  const planned = /planned/i.test(method);
+  const out: Feature[] = [];
+  for (const r of records) {
+    const f = normalizeRcrsEvent(r, planned);
+    if (f) out.push(f);
+  }
+  if (out.length === 0 && records.length > 0) {
+    console.warn(
+      `PennDOT events: ${method} returned ${records.length} record(s) but none parsed/placed; ` +
+        `first record keys: ${Object.keys(records[0] ?? {}).join(", ")}`
+    );
+  }
+  return out;
+}
+
+/**
+ * Map one RCRS event to a GeoJSON feature, restricted to Allegheny County.
+ * Defensive about field names (see fetchFromRcrs note). Returns null if it has
+ * no usable geometry or falls outside the county/bbox.
+ */
+function normalizeRcrsEvent(r: any, planned: boolean): Feature | null {
+  if (!r || typeof r !== "object") return null;
+
+  const geometry = rcrsGeometry(r);
+  if (!geometry) return null;
+
+  // Keep to Allegheny: trust an explicit county field; otherwise bbox-filter the
+  // representative point (first coordinate).
+  const county = String(pick(r, ["county", "countyName", "countyname"]) ?? "").trim();
+  const rep = geometry.type === "Point" ? geometry.coordinates : geometry.coordinates[0];
+  const [lng, lat] = rep as number[];
+  if (county) {
+    if (county.toUpperCase() !== "ALLEGHENY") return null;
+  } else if (!inBBox(lat, lng)) {
+    return null;
+  }
+
+  const start = toISO(pick(r, ["startDate", "startTime", "beginTime", "startDateTime", "start"]));
+  const end = toISO(
+    pick(r, ["endDate", "endTime", "anticipatedEndTime", "endDateTime", "estimatedEndTime", "end"])
+  );
+  const route = String(
+    pick(r, ["roadwayName", "roadway", "route", "routeName", "facilityName"]) ?? ""
+  ).trim();
+  const location = String(pick(r, ["locationDescription", "location", "crossStreet"]) ?? "").trim();
+  const street = route || location || "Road event";
+
+  const type = String(pick(r, ["eventType", "type", "category"]) ?? "").trim();
+  const description = String(pick(r, ["description", "eventDescription", "message"]) ?? "").trim();
+  const direction = String(pick(r, ["direction", "directionOfTravel"]) ?? "").trim();
+  const lanes = String(pick(r, ["laneDescription", "lanesAffected"]) ?? "").trim();
+
+  const detailParts = [type, description, direction, lanes].map((s) => s.trim()).filter(Boolean);
+  const detail = (planned ? "Planned — " : "") + (detailParts.join(" · ") || (planned ? "planned closure" : "active closure"));
+  const weekday = start ? WEEKDAYS[new Date(start + "T00:00:00Z").getUTCDay()] ?? "" : "";
+
+  const props: PavingFeatureProps = {
+    category: "closures511",
+    date: start || "",
+    weekday,
+    street,
+    label: location && location !== street ? `${street} — ${location}` : street,
+    approx: false,
+    endDate: end || undefined,
+    detail,
+  };
+  return { type: "Feature", geometry: geometry as any, properties: props };
+}
+
+/** Build geometry from whatever shape RCRS provides: a path, begin/end pair, or a point. */
+function rcrsGeometry(r: any): { type: "Point"; coordinates: number[] } | { type: "LineString"; coordinates: number[][] } | null {
+  const path = coordList(pick(r, ["geometry", "geom", "coordinates", "points", "path", "shape"]));
+  if (path && path.length >= 2) return { type: "LineString", coordinates: path };
+
+  const bLat = num(pick(r, ["beginLatitude", "startLatitude", "fromLatitude"]));
+  const bLng = num(pick(r, ["beginLongitude", "startLongitude", "fromLongitude"]));
+  const eLat = num(pick(r, ["endLatitude", "toLatitude"]));
+  const eLng = num(pick(r, ["endLongitude", "toLongitude"]));
+  if ([bLat, bLng, eLat, eLng].every(Number.isFinite)) {
+    return { type: "LineString", coordinates: [[bLng, bLat], [eLng, eLat]] };
+  }
+
+  const lat = num(pick(r, ["latitude", "lat", "y"]));
+  const lng = num(pick(r, ["longitude", "lng", "lon", "x"]));
+  if (Number.isFinite(lat) && Number.isFinite(lng)) return { type: "Point", coordinates: [lng, lat] };
+  return null;
+}
+
+/**
+ * Normalize a coordinate list to GeoJSON [lng, lat] pairs. Accepts arrays of
+ * [lat, lng] or {lat, lng}. RCRS (like the other PennDOT/WPRDC feeds) is assumed
+ * lat-first — verify when wiring against the live response.
+ */
+function coordList(raw: unknown): number[][] | null {
+  if (!Array.isArray(raw)) return null;
+  const out: number[][] = [];
+  for (const pt of raw) {
+    let lat: number, lng: number;
+    if (Array.isArray(pt) && pt.length >= 2) {
+      lat = Number(pt[0]);
+      lng = Number(pt[1]);
+    } else if (pt && typeof pt === "object") {
+      lat = num(pick(pt, ["lat", "latitude", "y"]));
+      lng = num(pick(pt, ["lng", "lon", "longitude", "x"]));
+    } else {
+      continue;
+    }
+    if (Number.isFinite(lat) && Number.isFinite(lng)) out.push([lng, lat]);
+  }
+  return out.length ? out : null;
+}
+
+function inBBox(lat: number, lng: number): boolean {
+  const [south, west, north, east] = BBOX;
+  return lat >= south && lat <= north && lng >= west && lng <= east;
+}
+
+/** First non-empty value among `keys`, matched case-insensitively. */
+function pick(obj: any, keys: string[]): any {
+  if (!obj || typeof obj !== "object") return undefined;
+  const lower = new Map(Object.keys(obj).map((k) => [k.toLowerCase(), k] as const));
+  for (const k of keys) {
+    const real = lower.get(k.toLowerCase());
+    if (real != null) {
+      const v = obj[real];
+      if (v != null && v !== "") return v;
+    }
+  }
+  return undefined;
+}
+
+function num(v: unknown): number {
+  return typeof v === "number" ? v : Number(v);
+}
+
+/** Flexible date -> "YYYY-MM-DD": handles ISO, epoch ms/s, and "Mon dd yyyy, h:mm AM". */
+function toISO(v: unknown): string {
+  if (v == null) return "";
+  if (typeof v === "number") return fromDate(new Date(v));
+  const s = String(v).trim();
+  if (!s) return "";
+  if (/^\d{13}$/.test(s)) return fromDate(new Date(Number(s)));
+  if (/^\d{10}$/.test(s)) return fromDate(new Date(Number(s) * 1000));
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10);
+  return fromDate(new Date(s.replace(",", "")));
+}
+
+function fromDate(d: Date): string {
+  if (isNaN(d.getTime())) return "";
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(d.getUTCDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
 }
 
 async function fetchFrom511(): Promise<Feature[]> {
