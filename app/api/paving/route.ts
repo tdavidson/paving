@@ -8,6 +8,7 @@ export async function GET() {
   const { collection, unresolved } = await buildCollection({
     includeConstruction: true,
     includeProjects: true,
+    includeEvents: true,
   });
   return NextResponse.json(
     {
