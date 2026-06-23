@@ -725,7 +725,7 @@ function AboutModal({ onClose }: { onClose: () => void }) {
             dataset on the Western Pennsylvania Regional Data Center (WPRDC).
               </li>
               <li>
-                <strong className="text-foreground">PennDOT projects</strong> (off by default) adds
+                <strong className="text-foreground">PennDOT projects</strong> adds
                 county-wide road &amp; bridge work on state-maintained roads, pulled live from
                 PennDOT&apos;s public{" "}
                 <a
@@ -750,9 +750,15 @@ function AboutModal({ onClose }: { onClose: () => void }) {
                 page for more.
               </li>
               <li>
+                <strong className="text-foreground">Live traffic</strong> is not our data — it
+                overlays Google Maps&apos; own real-time traffic conditions (the same green/yellow/red
+                speeds you see in Google Maps) so you can view closures against how traffic is
+                actually moving. Toggle it on or off any time; it has no effect on the work-type or
+                date filters.
+              </li>
+              <li>
                 Filter by work type and by day: use the week presets, the slider, or pick an
-                individual day from the calendar. Toggle <em>Live traffic</em> to see closures
-                against Google&apos;s real-time traffic.
+                individual day from the calendar.
               </li>
             </ul>
           </div>

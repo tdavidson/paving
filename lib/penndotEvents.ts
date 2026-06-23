@@ -1,5 +1,6 @@
 import type { Feature } from "geojson";
 import type { PavingFeatureProps } from "./types";
+import boundary from "../data/allegheny-boundary.json";
 
 /**
  * Live "511PA closures" layer: PennDOT RCRS road events — active roadwork,
@@ -38,10 +39,21 @@ const LAYER_META: Record<string, { label: string; prefix: string }> = {
   Closures: { label: "Closure", prefix: "Closure" },
 };
 
-/** Allegheny County bounding box "south,west,north,east"; overridable. */
-const BBOX = (process.env.PENNDOT_EVENTS_BBOX || "40.18,-80.36,40.68,-79.69")
-  .split(",")
-  .map(Number);
+/**
+ * Allegheny County boundary, used to keep events inside the county's actual
+ * (irregular) border rather than a loose rectangle — a rectangle big enough to
+ * cover the county also catches closures just over the line in Washington,
+ * Westmoreland, Butler, and Beaver counties. `BBOX` is the polygon's bounding
+ * box, kept as a cheap first-pass reject; `inCounty` is the precise gate.
+ * `PENNDOT_EVENTS_BBOX` still overrides the box (e.g. to widen coverage), but it
+ * does not loosen the polygon test.
+ */
+const BBOX = process.env.PENNDOT_EVENTS_BBOX
+  ? process.env.PENNDOT_EVENTS_BBOX.split(",").map(Number)
+  : (boundary.bbox as number[]);
+
+/** County boundary ring as [lng, lat] pairs (see data/allegheny-boundary.json). */
+const COUNTY_RING = boundary.ring as [number, number][];
 
 /** Cap tooltip fan-out, and how many to fetch at once. */
 const MAX_ITEMS = 120;
@@ -141,14 +153,14 @@ function normalizeRcrsEvent(r: any, planned: boolean): Feature | null {
   const geometry = rcrsGeometry(r);
   if (!geometry) return null;
 
-  // Keep to Allegheny: trust an explicit county field; otherwise bbox-filter the
-  // representative point (first coordinate).
+  // Keep to Allegheny: trust an explicit county field; otherwise test the
+  // representative point (first coordinate) against the county boundary.
   const county = String(pick(r, ["county", "countyName", "countyname"]) ?? "").trim();
   const rep = geometry.type === "Point" ? geometry.coordinates : geometry.coordinates[0];
   const [lng, lat] = rep as number[];
   if (county) {
     if (county.toUpperCase() !== "ALLEGHENY") return null;
-  } else if (!inBBox(lat, lng)) {
+  } else if (!inCounty(lat, lng)) {
     return null;
   }
 
@@ -232,6 +244,23 @@ function inBBox(lat: number, lng: number): boolean {
   return lat >= south && lat <= north && lng >= west && lng <= east;
 }
 
+/**
+ * True if the point falls within Allegheny County. Cheap bbox reject first, then
+ * a ray-casting point-in-polygon test against the county boundary ring.
+ */
+function inCounty(lat: number, lng: number): boolean {
+  if (!inBBox(lat, lng)) return false;
+  let inside = false;
+  for (let i = 0, j = COUNTY_RING.length - 1; i < COUNTY_RING.length; j = i++) {
+    const [xi, yi] = COUNTY_RING[i];
+    const [xj, yj] = COUNTY_RING[j];
+    if (yi > lat !== yj > lat && lng < ((xj - xi) * (lat - yi)) / (yj - yi) + xi) {
+      inside = !inside;
+    }
+  }
+  return inside;
+}
+
 /** First non-empty value among `keys`, matched case-insensitively. */
 function pick(obj: any, keys: string[]): any {
   if (!obj || typeof obj !== "object") return undefined;
@@ -281,9 +310,8 @@ async function fetchFrom511(): Promise<Feature[]> {
   return features;
 }
 
-/** Pull each layer's markers and keep those inside the configured bbox. */
+/** Pull each layer's markers and keep those inside the county boundary. */
 async function collectMarkers(): Promise<Marker[]> {
-  const [south, west, north, east] = BBOX;
   const out: Marker[] = [];
   for (const layer of LAYERS) {
     let json: any;
@@ -304,7 +332,7 @@ async function collectMarkers(): Promise<Marker[]> {
       const lat = Number(loc[0]);
       const lng = Number(loc[1]);
       if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
-      if (lat < south || lat > north || lng < west || lng > east) continue;
+      if (!inCounty(lat, lng)) continue;
       out.push({ layer, itemId: String(it.itemId), location: [lat, lng] });
       if (out.length >= MAX_ITEMS) return out;
     }
