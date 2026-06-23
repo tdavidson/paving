@@ -104,7 +104,15 @@ function inWindow(p: any, from: string, to: string): boolean {
   return p.date >= from && p.date <= to;
 }
 
-export default function PavingMap({ apiKey }: { apiKey: string }) {
+export default function PavingMap({
+  apiKey,
+  githubRepo = "tdavidson/paving",
+  stars = null,
+}: {
+  apiKey: string;
+  githubRepo?: string;
+  stars?: number | null;
+}) {
   const mapEl = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
   const infoRef = useRef<google.maps.InfoWindow | null>(null);
@@ -402,6 +410,7 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
             >
               About
             </Button>
+            <GitHubStarButton repo={githubRepo} stars={stars} />
           </div>
         </div>
 
@@ -614,6 +623,53 @@ export default function PavingMap({ apiKey }: { apiKey: string }) {
       )}
       {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
     </div>
+  );
+}
+
+/**
+ * GitHub "Star" button rendered in the default GitHub style (octocat mark +
+ * "Star" label and a separated count). The star count is supplied as a prop
+ * (fetched + cached on the server) so it is not re-fetched on every page load.
+ */
+function GitHubStarButton({
+  repo,
+  stars,
+}: {
+  repo: string;
+  stars: number | null;
+}) {
+  const formatted =
+    stars == null
+      ? null
+      : stars >= 1000
+      ? `${(stars / 1000).toFixed(stars >= 10000 ? 0 : 1)}k`
+      : `${stars}`;
+  return (
+    <a
+      href={`https://github.com/${repo}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Star ${repo} on GitHub${
+        formatted ? ` (${formatted} stars)` : ""
+      }`}
+      className="inline-flex h-7 items-stretch overflow-hidden rounded-md border border-input bg-background text-xs shadow-sm"
+    >
+      <span className="flex items-center gap-1.5 px-2.5 transition-colors hover:bg-accent hover:text-accent-foreground">
+        <svg
+          viewBox="0 0 16 16"
+          aria-hidden="true"
+          className="h-3.5 w-3.5 fill-current"
+        >
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+        </svg>
+        Star
+      </span>
+      {formatted != null && (
+        <span className="flex items-center border-l border-input bg-muted/50 px-2.5 font-medium tabular-nums">
+          {formatted}
+        </span>
+      )}
+    </a>
   );
 }
 
