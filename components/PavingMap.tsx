@@ -681,7 +681,8 @@ function AboutModal({ onClose }: { onClose: () => void }) {
             <ul className="list-disc space-y-1 pl-4 text-muted-foreground">
               <li>
                 <strong className="text-foreground">Paving / milling / ADA</strong> come from the city of
-                Pittsburgh&apos;s published Google Sheet. See the city&apos;s official{" "}
+                Pittsburgh&apos;s published Google Sheet. Those hand-typed streets are matched to geometry using the City of Pittsburgh GIS centerline, with a typo-correction layer for names the sheet
+                misspells. See the city&apos;s official{" "}
             <a
               href="https://www.pittsburghpa.gov/Resident-Services/Road-Maintenance/Paving-Schedule"
               target="_blank"
@@ -691,11 +692,6 @@ function AboutModal({ onClose }: { onClose: () => void }) {
               Paving Schedule page
             </a>
             .
-              </li>
-              <li>
-                Those hand-typed streets are matched to geometry using the City of Pittsburgh GIS
-                centerline, with a typo-correction layer for names the sheet
-                misspells.
               </li>
               <li>
                 <strong className="text-foreground">Road closures</strong> are live
@@ -750,9 +746,7 @@ function AboutModal({ onClose }: { onClose: () => void }) {
                 page for more.
               </li>
               <li>
-                <strong className="text-foreground">Live traffic</strong> is not our data — it
-                overlays Google Maps&apos; own real-time traffic conditions (the same green/yellow/red
-                speeds you see in Google Maps) so you can view closures against how traffic is
+                <strong className="text-foreground">Live traffic</strong> overlays Google Maps&apos; real-time traffic conditions so you can view closures against how traffic is
                 actually moving. Toggle it on or off any time; it has no effect on the work-type or
                 date filters.
               </li>
