@@ -168,7 +168,7 @@
     ],
     "weekLabel": "2026 6-22 ADA list",
     "firstSeen": "2026-06-20T10:15:31.442Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "ada|2026-06-22|california ave|chellis st,winhurst st",
@@ -182,7 +182,7 @@
     ],
     "weekLabel": "2026 6-22 ADA list",
     "firstSeen": "2026-06-20T10:15:31.442Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "ada|2026-06-22|kalorama way|davis ave",
@@ -195,7 +195,7 @@
     ],
     "weekLabel": "2026 6-22 ADA list",
     "firstSeen": "2026-06-20T10:15:31.442Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "ada|2026-06-22|letort st|by school/park",
@@ -208,7 +208,7 @@
     ],
     "weekLabel": "2026 6-22 ADA list",
     "firstSeen": "2026-06-20T10:15:31.442Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-06-22|armandale st|buena vista st|wolpert way",
@@ -353,7 +353,7 @@
     ],
     "weekLabel": "2026 6-22 ADA list",
     "firstSeen": "2026-06-20T10:15:31.442Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "ada|2026-06-24|manhattan st|faulsey way",
@@ -366,7 +366,7 @@
     ],
     "weekLabel": "2026 6-22 ADA list",
     "firstSeen": "2026-06-20T10:15:31.442Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "ada|2026-06-24|north point drive|beaver ave",
@@ -379,7 +379,7 @@
     ],
     "weekLabel": "2026 6-22 ADA list",
     "firstSeen": "2026-06-20T10:15:31.442Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-06-24|homer st|firth st|high st",
@@ -489,7 +489,7 @@
     ],
     "weekLabel": "2026 6-22 ADA list",
     "firstSeen": "2026-06-20T10:15:31.442Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "ada|2026-06-25|sheffield st|bidwell st",
@@ -502,7 +502,7 @@
     ],
     "weekLabel": "2026 6-22 ADA list",
     "firstSeen": "2026-06-20T10:15:31.442Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-06-25|penn ave|15th st|12th st",
@@ -850,7 +850,7 @@
     "to": "Grandview Ave",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-06|pawnee st|meridan st|deadend",
@@ -862,7 +862,7 @@
     "to": "Deadend",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-06|tay way|maryland ave|pierce st",
@@ -874,7 +874,7 @@
     "to": "Pierce St",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-07|carnahan rd|banksville ave|kirsopp ave",
@@ -886,7 +886,7 @@
     "to": "KIRSOPP AVE",
     "weekLabel": "2026 7-6 Milling list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-07|hassler st|herschel st|phoenix st",
@@ -898,7 +898,7 @@
     "to": "Phoenix St",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-07|knowlton way|sparta st|mcdade way",
@@ -910,7 +910,7 @@
     "to": "Mcdade Way",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-07|whitewood dr|arnold st|stubbin",
@@ -922,7 +922,7 @@
     "to": "Stubbin",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-08|arletta way|adon st|citadel st",
@@ -934,7 +934,7 @@
     "to": "Citadel ST",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-08|cedarbrook dr|whitewood dr|dead end",
@@ -946,7 +946,7 @@
     "to": "Dead End",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-08|hillboro st|chartiers ave|lanpark st",
@@ -958,7 +958,7 @@
     "to": "Lanpark ST",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-08|kentmoor dr|dead end|whitewood dr",
@@ -970,7 +970,7 @@
     "to": "Whitewood Dr",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-09|hayson ave|dead end|silver oak",
@@ -982,7 +982,7 @@
     "to": "Silver Oak",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-09|minton st|zephyr ave|glen mawr st",
@@ -994,7 +994,7 @@
     "to": "Glen Mawr St",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-09|red oak dr|dead end|hayson st",
@@ -1006,7 +1006,7 @@
     "to": "Hayson St",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-09|robina st|sherwood ave|dead end",
@@ -1018,7 +1018,7 @@
     "to": "Dead End",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-10|armandale st|buena vista st|wolpert way",
@@ -1030,7 +1030,7 @@
     "to": "WOLPERT WAY",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-10|brightridge st|n charles st|holyoke st",
@@ -1042,7 +1042,7 @@
     "to": "HOLYOKE ST",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-10|eloise st|buena vista st|mimosa way",
@@ -1054,7 +1054,7 @@
     "to": "MIMOSA WAY",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-10|hertzog way|dead end|fleming ave",
@@ -1066,7 +1066,7 @@
     "to": "FLEMING AVE",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-10|mero way|buena vista st|brighton rd",
@@ -1078,7 +1078,7 @@
     "to": "BRIGHTON RD",
     "weekLabel": "2026 7-6 Paving list",
     "firstSeen": "2026-07-03T12:52:57.138Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-13|56th st|butler st|carnegie st",
@@ -1090,7 +1090,7 @@
     "to": "Carnegie St",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-13|camelia st|hawthorne st|woodbine st",
@@ -1102,7 +1102,7 @@
     "to": "Woodbine St",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-13|hawthorne st|hawthorne qt|stanton ave",
@@ -1114,7 +1114,7 @@
     "to": "Stanton Ave",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-13|carnahan rd|shelly dr|woodcove pl",
@@ -1126,7 +1126,7 @@
     "to": "Woodcove PL",
     "weekLabel": "2026 7-13 Paving list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-14|dragoon way|amsterdam ave|farmington st",
@@ -1138,7 +1138,7 @@
     "to": "Farmington st",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-14|simona dr|farmington st|camelia st",
@@ -1150,7 +1150,7 @@
     "to": "Camelia St",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-14|swan way|dead end|gael way",
@@ -1162,7 +1162,7 @@
     "to": "Gael Way",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-14|wellesley ave|highview st|chislett st",
@@ -1174,7 +1174,7 @@
     "to": "Chislett St",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-14|carnahan rd|shelly dr|woodcove pl",
@@ -1186,7 +1186,7 @@
     "to": "Woodcove PL",
     "weekLabel": "2026 7-13 Paving list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-15|hampton st|king ave|heths ave",
@@ -1198,7 +1198,7 @@
     "to": "Heths Ave",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-15|heths ave|hampton st|wellesley ave",
@@ -1210,7 +1210,7 @@
     "to": "Wellesley Ave",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-15|mellon st|hampton st|albree way",
@@ -1222,7 +1222,7 @@
     "to": "Albree Way",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-15|one wild place|one wild pl|lake dr",
@@ -1234,7 +1234,7 @@
     "to": "Lake Dr",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-15|roxanna way|janero st|wellesley ave",
@@ -1246,7 +1246,7 @@
     "to": "Wellesley Ave",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "milling|2026-07-15|samantha way|stanton ave|sharp way",
@@ -1258,7 +1258,7 @@
     "to": "Sharp Way",
     "weekLabel": "2026 7-13 Milling list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-15|56th st|butler st|carnegie st",
@@ -1270,7 +1270,7 @@
     "to": "Carnegie St",
     "weekLabel": "2026 7-13 Paving list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-15|camelia st|hawthorne st|woodbine st",
@@ -1282,7 +1282,7 @@
     "to": "Woodbine St",
     "weekLabel": "2026 7-13 Paving list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   },
   {
     "id": "paving|2026-07-15|hawthorne st|hawthorne qt|stanton ave",
@@ -1294,6 +1294,6 @@
     "to": "Stanton Ave",
     "weekLabel": "2026 7-13 Paving list",
     "firstSeen": "2026-07-11T11:47:00.823Z",
-    "lastSeen": "2026-07-11T11:47:00.823Z"
+    "lastSeen": "2026-07-12T11:52:50.067Z"
   }
 ]
