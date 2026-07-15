@@ -61,6 +61,22 @@ const CONCURRENCY = 8;
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+/**
+ * liveEvents carries every active incident statewide (crashes, disabled
+ * vehicles, debris, downed trees, …). For a paving/closures map we keep only the
+ * work- and bridge-closure event types — the equivalent of the old 511 scrape's
+ * ActiveRoadwork/ClosedBridges layers. plannedEvents are kept regardless of type
+ * (they're all scheduled closures). Values are from the RCRS EventType code
+ * table; compared lower-cased.
+ */
+const LIVE_WORK_TYPES = new Set([
+  "roadwork",
+  "moving roadwork",
+  "utility work",
+  "damaged roadway",
+  "bridge outage",
+]);
+
 interface Marker {
   layer: string;
   itemId: string;
@@ -82,13 +98,13 @@ export async function fetchPennDotEvents(): Promise<Feature[]> {
  *   RCRS_USERNAME / RCRS_PASSWORD    HTTP Basic Auth
  *   RCRS_EVENTS_METHODS   optional CSV (default "liveEvents,plannedEvents")
  *
- * IMPORTANT: PennDOT does not publish the JSON field names, so the normalizer
- * below (normalizeRcrsEvent) is intentionally tolerant — it tries several key
- * spellings (case-insensitive) for each field. It MUST be verified against a
- * real response once credentials land; on a parse miss it logs the first
- * record's keys to make that a one-line adjustment. Until the url/creds exist,
- * and on any hard request failure, we fall back to the open 511PA path so the
- * layer still renders.
+ * The normalizer (normalizeRcrsEvent) maps the documented RCRS_Event_Data
+ * properties (https://www.pa.gov/.../developer-resources-documentation-api),
+ * verified against the live `Values` payload. `pick` matches keys
+ * case-insensitively because the live feed lower-cases the leading letter
+ * (e.g. `facility`) vs. the docs (`Facility`). Until the url/creds exist, and on
+ * any hard request failure, we fall back to the open 511PA path so the layer
+ * still renders.
  */
 async function fetchFromRcrs(): Promise<Feature[]> {
   const base = process.env.RCRS_EVENTS_URL;
@@ -125,7 +141,7 @@ async function fetchRcrsMethod(base: string, method: string, auth: string): Prom
   const json: any = await res.json();
   const records: any[] = Array.isArray(json)
     ? json
-    : json?.events ?? json?.Events ?? json?.data ?? json?.result ?? [];
+    : json?.Values ?? json?.values ?? json?.events ?? json?.Events ?? json?.data ?? json?.result ?? [];
 
   const planned = /planned/i.test(method);
   const out: Feature[] = [];
@@ -133,10 +149,14 @@ async function fetchRcrsMethod(base: string, method: string, auth: string): Prom
     const f = normalizeRcrsEvent(r, planned);
     if (f) out.push(f);
   }
-  if (out.length === 0 && records.length > 0) {
+  // The feed is statewide; Allegheny is a small slice, so 0 kept out of many is
+  // normal (they were filtered by county). Only warn on a genuine shape problem
+  // — records present but none yields geometry — which would signal the feed's
+  // field names drifted from what normalizeRcrsEvent expects.
+  if (out.length === 0 && records.length > 0 && !records.some((r) => rcrsGeometry(r))) {
     console.warn(
-      `PennDOT events: ${method} returned ${records.length} record(s) but none parsed/placed; ` +
-        `first record keys: ${Object.keys(records[0] ?? {}).join(", ")}`
+      `PennDOT events: ${method} returned ${records.length} record(s) but none had usable ` +
+        `geometry; first record keys: ${Object.keys(records[0] ?? {}).join(", ")}`
     );
   }
   return out;
@@ -144,8 +164,10 @@ async function fetchRcrsMethod(base: string, method: string, auth: string): Prom
 
 /**
  * Map one RCRS event to a GeoJSON feature, restricted to Allegheny County.
- * Defensive about field names (see fetchFromRcrs note). Returns null if it has
- * no usable geometry or falls outside the county/bbox.
+ * Field names are the documented RCRS_Event_Data properties (matched
+ * case-insensitively via `pick`, since the live feed lower-cases the initial
+ * letter vs. the docs). Returns null if it has no usable geometry or falls
+ * outside the county.
  */
 function normalizeRcrsEvent(r: any, planned: boolean): Feature | null {
   if (!r || typeof r !== "object") return null;
@@ -153,9 +175,12 @@ function normalizeRcrsEvent(r: any, planned: boolean): Feature | null {
   const geometry = rcrsGeometry(r);
   if (!geometry) return null;
 
-  // Keep to Allegheny: trust an explicit county field; otherwise test the
-  // representative point (first coordinate) against the county boundary.
-  const county = String(pick(r, ["county", "countyName", "countyname"]) ?? "").trim();
+  // Keep to Allegheny. RCRS sends a numeric `County` code ("02") *and* a
+  // `CountyName` string ("ALLEGHENY"); gate on the name. Fall back to the
+  // point-in-polygon test only if no name is present.
+  const county = String(
+    pick(r, ["countyName", "countyFromName", "countyToName", "countyIncName"]) ?? ""
+  ).trim();
   const rep = geometry.type === "Point" ? geometry.coordinates : geometry.coordinates[0];
   const [lng, lat] = rep as number[];
   if (county) {
@@ -164,23 +189,50 @@ function normalizeRcrsEvent(r: any, planned: boolean): Feature | null {
     return null;
   }
 
-  const start = toISO(pick(r, ["startDate", "startTime", "beginTime", "startDateTime", "start"]));
-  const end = toISO(
-    pick(r, ["endDate", "endTime", "anticipatedEndTime", "endDateTime", "estimatedEndTime", "end"])
-  );
-  const route = String(
-    pick(r, ["roadwayName", "roadway", "route", "routeName", "facilityName"]) ?? ""
-  ).trim();
-  const location = String(pick(r, ["locationDescription", "location", "crossStreet"]) ?? "").trim();
-  const street = route || location || "Road event";
+  // Closure span. For planned events the real range lives in
+  // EventRepetitionDetails (StartDate..EndDate, "N/A" when one-time); one-time
+  // and live events fall back to DateTimeEventOccurs (scheduled/actual begin).
+  // A one-time event has no explicit end, so endDate is left open — inWindow
+  // then keeps it visible for any window at/after its start.
+  const reps = (r.EventRepetitionDetails ?? r.eventRepetitionDetails ?? null) as any;
+  const occurs = naOr(pick(reps, ["occurs"]));
+  const start =
+    toISO(naOr(pick(reps, ["startDate"]))) ||
+    toISO(pick(r, ["dateTimeEventOccurs", "createTime"]));
+  const end = toISO(naOr(pick(reps, ["endDate"]))) || undefined;
 
-  const type = String(pick(r, ["eventType", "type", "category"]) ?? "").trim();
-  const description = String(pick(r, ["description", "eventDescription", "message"]) ?? "").trim();
-  const direction = String(pick(r, ["direction", "directionOfTravel"]) ?? "").trim();
-  const lanes = String(pick(r, ["laneDescription", "lanesAffected"]) ?? "").trim();
+  const route = String(pick(r, ["facility"]) ?? "").trim();
+  const fromLoc = String(pick(r, ["fromLoc"]) ?? "").trim();
+  const toLoc = String(pick(r, ["toLoc"]) ?? "").trim();
+  const street = route || fromLoc || "Road event";
 
-  const detailParts = [type, description, direction, lanes].map((s) => s.trim()).filter(Boolean);
-  const detail = (planned ? "Planned — " : "") + (detailParts.join(" · ") || (planned ? "planned closure" : "active closure"));
+  const type = String(pick(r, ["eventType"]) ?? "").trim();
+  // Live events: keep only roadwork/bridge-closure types (see LIVE_WORK_TYPES),
+  // the equivalent of the old 511 ActiveRoadwork/ClosedBridges layers. Planned
+  // events are all scheduled closures, so they pass through regardless of type.
+  if (!planned && !LIVE_WORK_TYPES.has(type.toLowerCase())) return null;
+
+  const description = String(pick(r, ["description"]) ?? "").trim();
+  const laneStatus = String(pick(r, ["laneStatus"]) ?? "").trim();
+  const affected = String(pick(r, ["affectedLanes"]) ?? "").trim();
+
+  // RCRS's `description` is a complete sentence that already names the event
+  // type, extent, and lane status (e.g. "Special event on PA 31 westbound
+  // between … All lanes closed."), so when it's present we lean on it and only
+  // add the planned/recurrence context. Without it, assemble from the parts.
+  const bits: string[] = [];
+  if (planned) bits.push("Planned");
+  if (description) {
+    bits.push(description);
+  } else {
+    if (type) bits.push(cap(type));
+    if (fromLoc || toLoc) bits.push([fromLoc, toLoc].filter(Boolean).join(" to "));
+    const laneBit = [laneStatus, affected].filter(Boolean).join(" — ");
+    if (laneBit) bits.push(laneBit);
+  }
+  if (occurs && occurs.toLowerCase() !== "one time event") bits.push(`Recurs: ${occurs}`);
+  const detail = bits.join(" · ") || (planned ? "Planned closure" : "Active closure");
+
   const weekday = start ? WEEKDAYS[new Date(start + "T00:00:00Z").getUTCDay()] ?? "" : "";
 
   const props: PavingFeatureProps = {
@@ -188,55 +240,49 @@ function normalizeRcrsEvent(r: any, planned: boolean): Feature | null {
     date: start || "",
     weekday,
     street,
-    label: location && location !== street ? `${street} — ${location}` : street,
+    label: fromLoc && fromLoc !== street ? `${street} — ${fromLoc}` : street,
     approx: false,
-    endDate: end || undefined,
+    endDate: end,
     detail,
   };
   return { type: "Feature", geometry: geometry as any, properties: props };
 }
 
-/** Build geometry from whatever shape RCRS provides: a path, begin/end pair, or a point. */
+/**
+ * Geometry from the RCRS location fields. Each is a "lat,lng" *string*
+ * (FromLocLatLong / ToLocLatLong / IncidentLocLatLong). A distinct from→to pair
+ * makes a LineString; otherwise the incident/from point makes a Point.
+ */
 function rcrsGeometry(r: any): { type: "Point"; coordinates: number[] } | { type: "LineString"; coordinates: number[][] } | null {
-  const path = coordList(pick(r, ["geometry", "geom", "coordinates", "points", "path", "shape"]));
-  if (path && path.length >= 2) return { type: "LineString", coordinates: path };
-
-  const bLat = num(pick(r, ["beginLatitude", "startLatitude", "fromLatitude"]));
-  const bLng = num(pick(r, ["beginLongitude", "startLongitude", "fromLongitude"]));
-  const eLat = num(pick(r, ["endLatitude", "toLatitude"]));
-  const eLng = num(pick(r, ["endLongitude", "toLongitude"]));
-  if ([bLat, bLng, eLat, eLng].every(Number.isFinite)) {
-    return { type: "LineString", coordinates: [[bLng, bLat], [eLng, eLat]] };
+  const from = latLong(pick(r, ["fromLocLatLong"]));
+  const to = latLong(pick(r, ["toLocLatLong"]));
+  const inc = latLong(pick(r, ["incidentLocLatLong"]));
+  if (from && to && (from[0] !== to[0] || from[1] !== to[1])) {
+    return { type: "LineString", coordinates: [from, to] };
   }
-
-  const lat = num(pick(r, ["latitude", "lat", "y"]));
-  const lng = num(pick(r, ["longitude", "lng", "lon", "x"]));
-  if (Number.isFinite(lat) && Number.isFinite(lng)) return { type: "Point", coordinates: [lng, lat] };
-  return null;
+  const pt = inc || from || to;
+  return pt ? { type: "Point", coordinates: pt } : null;
 }
 
-/**
- * Normalize a coordinate list to GeoJSON [lng, lat] pairs. Accepts arrays of
- * [lat, lng] or {lat, lng}. RCRS (like the other PennDOT/WPRDC feeds) is assumed
- * lat-first — verify when wiring against the live response.
- */
-function coordList(raw: unknown): number[][] | null {
-  if (!Array.isArray(raw)) return null;
-  const out: number[][] = [];
-  for (const pt of raw) {
-    let lat: number, lng: number;
-    if (Array.isArray(pt) && pt.length >= 2) {
-      lat = Number(pt[0]);
-      lng = Number(pt[1]);
-    } else if (pt && typeof pt === "object") {
-      lat = num(pick(pt, ["lat", "latitude", "y"]));
-      lng = num(pick(pt, ["lng", "lon", "longitude", "x"]));
-    } else {
-      continue;
-    }
-    if (Number.isFinite(lat) && Number.isFinite(lng)) out.push([lng, lat]);
-  }
-  return out.length ? out : null;
+/** Parse an RCRS "lat,lng" string to a GeoJSON [lng, lat] pair, or null. */
+function latLong(v: unknown): number[] | null {
+  if (v == null) return null;
+  const parts = String(v).split(",");
+  if (parts.length < 2) return null;
+  const lat = Number(parts[0].trim());
+  const lng = Number(parts[1].trim());
+  return Number.isFinite(lat) && Number.isFinite(lng) ? [lng, lat] : null;
+}
+
+/** RCRS uses the literal "N/A" for empty repetition fields; treat it as absent. */
+function naOr(v: unknown): string {
+  const s = v == null ? "" : String(v).trim();
+  return !s || s.toUpperCase() === "N/A" ? "" : s;
+}
+
+/** Capitalize the first letter (event types arrive lower-cased). */
+function cap(s: string): string {
+  return s ? s[0].toUpperCase() + s.slice(1) : s;
 }
 
 function inBBox(lat: number, lng: number): boolean {
@@ -273,10 +319,6 @@ function pick(obj: any, keys: string[]): any {
     }
   }
   return undefined;
-}
-
-function num(v: unknown): number {
-  return typeof v === "number" ? v : Number(v);
 }
 
 /** Flexible date -> "YYYY-MM-DD": handles ISO, epoch ms/s, and "Mon dd yyyy, h:mm AM". */
