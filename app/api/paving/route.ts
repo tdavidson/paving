@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { buildCollection } from "@/lib/data";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 export const revalidate = 3600;
 
 export async function GET() {

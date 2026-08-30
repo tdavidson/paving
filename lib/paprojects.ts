@@ -70,6 +70,7 @@ export async function fetchProjectFeatures(): Promise<Feature[]> {
   try {
     const res = await fetch(url, {
       headers: { "User-Agent": "pgh-paving-map/1.0" },
+      signal: AbortSignal.timeout(10000),
       // Projects move slowly; revalidate hourly like the other live layers.
       next: { revalidate: 3600 },
     } as RequestInit);

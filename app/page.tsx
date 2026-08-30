@@ -9,6 +9,7 @@ async function getStarCount(): Promise<number | null> {
     const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}`, {
       headers: { Accept: "application/vnd.github+json" },
       next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return null;
     const data = await res.json();

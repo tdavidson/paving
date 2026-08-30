@@ -135,6 +135,7 @@ async function fetchFromRcrs(): Promise<Feature[]> {
 async function fetchRcrsMethod(base: string, method: string, auth: string): Promise<Feature[]> {
   const res = await fetch(`${base.replace(/\/$/, "")}/${method}`, {
     headers: { Authorization: auth, Accept: "application/json", "User-Agent": "pgh-paving-map/1.0" },
+    signal: AbortSignal.timeout(10000),
     next: { revalidate: 3600 },
   } as RequestInit);
   if (!res.ok) throw new Error(`${method} HTTP ${res.status}`);
@@ -360,6 +361,7 @@ async function collectMarkers(): Promise<Marker[]> {
     try {
       const res = await fetch(`${BASE}/map/mapIcons/${layer}`, {
         headers: { "User-Agent": "pgh-paving-map/1.0" },
+        signal: AbortSignal.timeout(10000),
         next: { revalidate: 3600 },
       } as RequestInit);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -388,6 +390,7 @@ async function toFeature(m: Marker): Promise<Feature | null> {
   try {
     const res = await fetch(`${BASE}/tooltip/${m.layer}/${m.itemId}?noCss=true`, {
       headers: { "User-Agent": "pgh-paving-map/1.0" },
+      signal: AbortSignal.timeout(10000),
       next: { revalidate: 3600 },
     } as RequestInit);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);

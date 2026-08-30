@@ -56,7 +56,12 @@ function loadOverrides(): GeocodeCache {
  * before the next scheduled ingest has committed it. Deduped by stable id.
  */
 export async function loadAllItems(): Promise<ScheduleItem[]> {
-  const live = await fetchSchedule();
+  let live: ScheduleItem[] = [];
+  try {
+    live = await fetchSchedule();
+  } catch (err) {
+    console.warn("Live paving schedule fetch failed; using archive:", (err as Error).message);
+  }
   const archived = loadArchiveItems();
   const byId = new Map<string, ScheduleItem>();
   for (const it of archived) byId.set(idFor(it), it);

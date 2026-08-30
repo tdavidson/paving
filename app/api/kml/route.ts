@@ -3,6 +3,7 @@ import { parseFilters } from "@/lib/filters";
 import { toKml } from "@/lib/kml";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 export const revalidate = 3600;
 
 export async function GET(req: Request) {

@@ -127,13 +127,21 @@ async function queryCenterline(where: string): Promise<Feature<LineString>[]> {
   const url =
     `${CENTERLINE}?where=${encodeURIComponent(where)}` +
     `&outFields=streetname&returnGeometry=true&outSR=4326&f=geojson&resultRecordCount=200`;
-  const res = await fetch(url, { next: { revalidate: 86400 } } as RequestInit);
-  if (!res.ok) return [];
-  const json: any = await res.json();
-  if (!json?.features) return [];
-  return json.features.filter(
-    (f: any) => f?.geometry?.type === "LineString" && f.geometry.coordinates?.length >= 2
-  ) as Feature<LineString>[];
+  try {
+    const res = await fetch(url, {
+      next: { revalidate: 86400 },
+      signal: AbortSignal.timeout(10000),
+    } as RequestInit);
+    if (!res.ok) return [];
+    const json: any = await res.json();
+    if (!json?.features) return [];
+    return json.features.filter(
+      (f: any) => f?.geometry?.type === "LineString" && f.geometry.coordinates?.length >= 2
+    ) as Feature<LineString>[];
+  } catch (err) {
+    console.warn("Street centerline fetch failed:", (err as Error).message);
+    return [];
+  }
 }
 
 /**

@@ -154,6 +154,7 @@ function toIso(s: string): string | null {
 async function fetchText(url: string): Promise<string> {
   const res = await fetch(url, {
     headers: { "User-Agent": "pgh-paving-map/1.0" },
+    signal: AbortSignal.timeout(10000),
     // Revalidate the upstream sheet periodically (Next.js fetch cache).
     next: { revalidate: 3600 },
   } as RequestInit);
