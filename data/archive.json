@@ -3909,7 +3909,7 @@
     "to": "Lynnbrook Ave",
     "weekLabel": "2026 9-14 Paving list",
     "firstSeen": "2026-09-11T14:45:58.169Z",
-    "lastSeen": "2026-09-22T15:18:57.065Z"
+    "lastSeen": "2026-09-23T15:14:55.316Z"
   },
   {
     "id": "paving|2026-09-15|goff st|petunia st|ballenger st",
@@ -3921,7 +3921,7 @@
     "to": "Ballenger St",
     "weekLabel": "2026 9-14 Paving list",
     "firstSeen": "2026-09-11T14:45:58.169Z",
-    "lastSeen": "2026-09-22T15:18:57.065Z"
+    "lastSeen": "2026-09-23T15:14:55.316Z"
   },
   {
     "id": "paving|2026-09-15|w. cherry hill|brownsville rd|dellrose st",
@@ -3933,7 +3933,7 @@
     "to": "Dellrose St",
     "weekLabel": "2026 9-14 Paving list",
     "firstSeen": "2026-09-11T14:45:58.169Z",
-    "lastSeen": "2026-09-22T15:18:57.065Z"
+    "lastSeen": "2026-09-23T15:14:55.316Z"
   },
   {
     "id": "paving|2026-09-16|monticello st|n lang ave|beecher st",
@@ -3945,7 +3945,7 @@
     "to": "Beecher St",
     "weekLabel": "2026 9-14 Paving list",
     "firstSeen": "2026-09-11T14:45:58.169Z",
-    "lastSeen": "2026-09-22T15:18:57.065Z"
+    "lastSeen": "2026-09-23T15:14:55.316Z"
   },
   {
     "id": "paving|2026-09-16|mulford st|hamilton ave|brushton ave",
@@ -3957,6 +3957,78 @@
     "to": "Brushton Ave",
     "weekLabel": "2026 9-14 Paving list",
     "firstSeen": "2026-09-11T14:45:58.169Z",
-    "lastSeen": "2026-09-22T15:18:57.065Z"
+    "lastSeen": "2026-09-23T15:14:55.316Z"
+  },
+  {
+    "id": "ada|2026-09-21|plummer st|butler st/48th st,home st",
+    "category": "ada",
+    "date": "2026-09-21",
+    "weekday": "Mon",
+    "street": "Plummer St",
+    "intersections": [
+      "Butler St/48th St",
+      "Home St"
+    ],
+    "weekLabel": "2026 9-21 ADA list",
+    "firstSeen": "2026-09-23T15:14:55.316Z",
+    "lastSeen": "2026-09-23T15:14:55.316Z"
+  },
+  {
+    "id": "ada|2026-09-22|plummer st|home st cont,45th st,cotton way",
+    "category": "ada",
+    "date": "2026-09-22",
+    "weekday": "Tue",
+    "street": "Plummer St",
+    "intersections": [
+      "Home St cont.",
+      "45th St",
+      "Cotton way"
+    ],
+    "weekLabel": "2026 9-21 ADA list",
+    "firstSeen": "2026-09-23T15:14:55.316Z",
+    "lastSeen": "2026-09-23T15:14:55.316Z"
+  },
+  {
+    "id": "ada|2026-09-23|butler st|43rd st,fisk st,39th st",
+    "category": "ada",
+    "date": "2026-09-23",
+    "weekday": "Wed",
+    "street": "Butler St",
+    "intersections": [
+      "43rd St",
+      "Fisk St",
+      "39th St"
+    ],
+    "weekLabel": "2026 9-21 ADA list",
+    "firstSeen": "2026-09-23T15:14:55.316Z",
+    "lastSeen": "2026-09-23T15:14:55.316Z"
+  },
+  {
+    "id": "ada|2026-09-24|butler st|39th st cont,ater way,37th st",
+    "category": "ada",
+    "date": "2026-09-24",
+    "weekday": "Thu",
+    "street": "Butler St",
+    "intersections": [
+      "39th St cont.",
+      "Ater Way",
+      "37th St"
+    ],
+    "weekLabel": "2026 9-21 ADA list",
+    "firstSeen": "2026-09-23T15:14:55.316Z",
+    "lastSeen": "2026-09-23T15:14:55.316Z"
+  },
+  {
+    "id": "ada|2026-09-24|butler st|36th st",
+    "category": "ada",
+    "date": "2026-09-24",
+    "weekday": "Thu",
+    "street": "Butler St",
+    "intersections": [
+      "36th St"
+    ],
+    "weekLabel": "2026 9-21 ADA list",
+    "firstSeen": "2026-09-23T15:14:55.316Z",
+    "lastSeen": "2026-09-23T15:14:55.316Z"
   }
 ]
