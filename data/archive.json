@@ -3971,7 +3971,7 @@
     ],
     "weekLabel": "2026 9-21 ADA list",
     "firstSeen": "2026-09-23T15:14:55.316Z",
-    "lastSeen": "2026-09-24T15:38:41.221Z"
+    "lastSeen": "2026-09-25T15:41:54.254Z"
   },
   {
     "id": "ada|2026-09-22|plummer st|home st cont,45th st,cotton way",
@@ -3986,7 +3986,7 @@
     ],
     "weekLabel": "2026 9-21 ADA list",
     "firstSeen": "2026-09-23T15:14:55.316Z",
-    "lastSeen": "2026-09-24T15:38:41.221Z"
+    "lastSeen": "2026-09-25T15:41:54.254Z"
   },
   {
     "id": "ada|2026-09-23|butler st|43rd st,fisk st,39th st",
@@ -4001,7 +4001,7 @@
     ],
     "weekLabel": "2026 9-21 ADA list",
     "firstSeen": "2026-09-23T15:14:55.316Z",
-    "lastSeen": "2026-09-24T15:38:41.221Z"
+    "lastSeen": "2026-09-25T15:41:54.254Z"
   },
   {
     "id": "ada|2026-09-24|butler st|39th st cont,ater way,37th st",
@@ -4016,7 +4016,7 @@
     ],
     "weekLabel": "2026 9-21 ADA list",
     "firstSeen": "2026-09-23T15:14:55.316Z",
-    "lastSeen": "2026-09-24T15:38:41.221Z"
+    "lastSeen": "2026-09-25T15:41:54.254Z"
   },
   {
     "id": "ada|2026-09-24|butler st|36th st",
@@ -4029,6 +4029,204 @@
     ],
     "weekLabel": "2026 9-21 ADA list",
     "firstSeen": "2026-09-23T15:14:55.316Z",
-    "lastSeen": "2026-09-24T15:38:41.221Z"
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-09-28|environmental services lot||",
+    "category": "paving",
+    "date": "2026-09-28",
+    "weekday": "Mon",
+    "street": "Environmental Services Lot",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-09-28|hethlon|roedler way|jerome st",
+    "category": "paving",
+    "date": "2026-09-28",
+    "weekday": "Mon",
+    "street": "Hethlon",
+    "from": "Roedler Way",
+    "to": "Jerome ST",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-09-28|roedler way|deadend|coverdale st",
+    "category": "paving",
+    "date": "2026-09-28",
+    "weekday": "Mon",
+    "street": "Roedler Way",
+    "from": "Deadend",
+    "to": "Coverdale St",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-09-28|theodolite way/frank st||multiple locations",
+    "category": "paving",
+    "date": "2026-09-28",
+    "weekday": "Mon",
+    "street": "Theodolite Way/Frank St",
+    "to": "multiple locations",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-09-29|environmental services lot||",
+    "category": "paving",
+    "date": "2026-09-29",
+    "weekday": "Tue",
+    "street": "Environmental Services Lot",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-09-29|hethlon|roedler way|jerome st",
+    "category": "paving",
+    "date": "2026-09-29",
+    "weekday": "Tue",
+    "street": "Hethlon",
+    "from": "Roedler Way",
+    "to": "Jerome ST",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-09-29|roedler way|deadend|coverdale st",
+    "category": "paving",
+    "date": "2026-09-29",
+    "weekday": "Tue",
+    "street": "Roedler Way",
+    "from": "Deadend",
+    "to": "Coverdale St",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-09-29|theodolite way/frank st||multiple locations",
+    "category": "paving",
+    "date": "2026-09-29",
+    "weekday": "Tue",
+    "street": "Theodolite Way/Frank St",
+    "to": "multiple locations",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-09-30|hethlon|roedler way|jerome st",
+    "category": "paving",
+    "date": "2026-09-30",
+    "weekday": "Wed",
+    "street": "Hethlon",
+    "from": "Roedler Way",
+    "to": "Jerome ST",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-09-30|roedler way|deadend|coverdale st",
+    "category": "paving",
+    "date": "2026-09-30",
+    "weekday": "Wed",
+    "street": "Roedler Way",
+    "from": "Deadend",
+    "to": "Coverdale St",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "milling|2026-10-01|fernhill ave|ferncliff ave|bellbrook st",
+    "category": "milling",
+    "date": "2026-10-01",
+    "weekday": "Thu",
+    "street": "Fernhill Ave",
+    "from": "Ferncliff Ave",
+    "to": "Bellbrook St",
+    "weekLabel": "2026 9-28 Milling list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-10-01|hellcrest st|n fairmount st|n graham st",
+    "category": "paving",
+    "date": "2026-10-01",
+    "weekday": "Thu",
+    "street": "Hellcrest St",
+    "from": "N Fairmount St",
+    "to": "N Graham St",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-10-01|hethlon|roedler way|jerome st",
+    "category": "paving",
+    "date": "2026-10-01",
+    "weekday": "Thu",
+    "street": "Hethlon",
+    "from": "Roedler Way",
+    "to": "Jerome ST",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-10-01|roedler way|deadend|coverdale st",
+    "category": "paving",
+    "date": "2026-10-01",
+    "weekday": "Thu",
+    "street": "Roedler Way",
+    "from": "Deadend",
+    "to": "Coverdale St",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "milling|2026-10-02|drexel rd|cliffview rd|kleber st",
+    "category": "milling",
+    "date": "2026-10-02",
+    "weekday": "Fri",
+    "street": "Drexel Rd",
+    "from": "Cliffview RD",
+    "to": "Kleber St",
+    "weekLabel": "2026 9-28 Milling list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "milling|2026-10-02|mountford|lafayette ave|bellrau st",
+    "category": "milling",
+    "date": "2026-10-02",
+    "weekday": "Fri",
+    "street": "Mountford",
+    "from": "Lafayette Ave",
+    "to": "Bellrau St",
+    "weekLabel": "2026 9-28 Milling list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
+  },
+  {
+    "id": "paving|2026-10-02|hellcrest st|n fairmount st|n graham st",
+    "category": "paving",
+    "date": "2026-10-02",
+    "weekday": "Fri",
+    "street": "Hellcrest St",
+    "from": "N Fairmount St",
+    "to": "N Graham St",
+    "weekLabel": "2026 9-28 Paving list",
+    "firstSeen": "2026-09-25T15:41:54.254Z",
+    "lastSeen": "2026-09-25T15:41:54.254Z"
   }
 ]
