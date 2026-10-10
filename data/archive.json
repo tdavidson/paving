@@ -4278,7 +4278,7 @@
     "to": "Bellbrook St",
     "weekLabel": "2026 10-5 Paving list",
     "firstSeen": "2026-10-02T16:27:05.393Z",
-    "lastSeen": "2026-10-09T17:15:46.675Z"
+    "lastSeen": "2026-10-10T16:04:19.376Z"
   },
   {
     "id": "ada|2026-10-06|acco way|theona st",
@@ -4339,7 +4339,7 @@
     "to": "Bellbrook St",
     "weekLabel": "2026 10-5 Paving list",
     "firstSeen": "2026-10-03T15:01:30.196Z",
-    "lastSeen": "2026-10-09T17:15:46.675Z"
+    "lastSeen": "2026-10-10T16:04:19.376Z"
   },
   {
     "id": "paving|2026-10-06|hethlon|roedler way|jerome st",
@@ -4427,7 +4427,7 @@
     "to": "Kleber St",
     "weekLabel": "2026 10-5 Paving list",
     "firstSeen": "2026-10-03T15:01:30.196Z",
-    "lastSeen": "2026-10-09T17:15:46.675Z"
+    "lastSeen": "2026-10-10T16:04:19.376Z"
   },
   {
     "id": "paving|2026-10-07|hethlon|roedler way|jerome st",
@@ -4451,7 +4451,7 @@
     "to": "Bellrau St",
     "weekLabel": "2026 10-5 Paving list",
     "firstSeen": "2026-10-03T15:01:30.196Z",
-    "lastSeen": "2026-10-09T17:15:46.675Z"
+    "lastSeen": "2026-10-10T16:04:19.376Z"
   },
   {
     "id": "paving|2026-10-07|roedler way|deadend|coverdale st",
@@ -4539,7 +4539,7 @@
     "to": "Kleber St",
     "weekLabel": "2026 10-5 Paving list",
     "firstSeen": "2026-10-03T15:01:30.196Z",
-    "lastSeen": "2026-10-09T17:15:46.675Z"
+    "lastSeen": "2026-10-10T16:04:19.376Z"
   },
   {
     "id": "paving|2026-10-08|hellcrest st|n fairmount st|n graham st",
@@ -4575,7 +4575,7 @@
     "to": "N Graham St",
     "weekLabel": "2026 10-5 Paving list",
     "firstSeen": "2026-10-03T15:01:30.196Z",
-    "lastSeen": "2026-10-09T17:15:46.675Z"
+    "lastSeen": "2026-10-10T16:04:19.376Z"
   },
   {
     "id": "paving|2026-10-08|mountford|lafayette ave|bellrau st",
@@ -4587,7 +4587,7 @@
     "to": "Bellrau St",
     "weekLabel": "2026 10-5 Paving list",
     "firstSeen": "2026-10-03T15:01:30.196Z",
-    "lastSeen": "2026-10-09T17:15:46.675Z"
+    "lastSeen": "2026-10-10T16:04:19.376Z"
   },
   {
     "id": "paving|2026-10-08|roedler way|deadend|coverdale st",
@@ -4636,5 +4636,173 @@
     "weekLabel": "2026 10-5 Paving list",
     "firstSeen": "2026-10-02T16:27:05.393Z",
     "lastSeen": "2026-10-02T16:27:05.393Z"
+  },
+  {
+    "id": "ada|2026-10-12|bartow st|dale st,noblestown rd,clearview ave",
+    "category": "ada",
+    "date": "2026-10-12",
+    "weekday": "Mon",
+    "street": "Bartow St",
+    "intersections": [
+      "Dale St",
+      "Noblestown Rd",
+      "Clearview Ave"
+    ],
+    "weekLabel": "2026 10-12 ADA list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "ada|2026-10-12|behrens way|shadyhill rd",
+    "category": "ada",
+    "date": "2026-10-12",
+    "weekday": "Mon",
+    "street": "Behrens Way",
+    "intersections": [
+      "Shadyhill Rd"
+    ],
+    "weekLabel": "2026 10-12 ADA list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "ada|2026-10-12|ruble way|shadyhill rd",
+    "category": "ada",
+    "date": "2026-10-12",
+    "weekday": "Mon",
+    "street": "Ruble Way",
+    "intersections": [
+      "Shadyhill Rd"
+    ],
+    "weekLabel": "2026 10-12 ADA list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "ada|2026-10-13|36th st|cabinet way",
+    "category": "ada",
+    "date": "2026-10-13",
+    "weekday": "Tue",
+    "street": "36th St",
+    "intersections": [
+      "Cabinet Way"
+    ],
+    "weekLabel": "2026 10-12 ADA list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "ada|2026-10-13|kirkpatrick st|reed st,rose st",
+    "category": "ada",
+    "date": "2026-10-13",
+    "weekday": "Tue",
+    "street": "Kirkpatrick St",
+    "intersections": [
+      "Reed St",
+      "Rose St"
+    ],
+    "weekLabel": "2026 10-12 ADA list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "milling|2026-10-14|s aiken ave|friendship ave|baum blvd",
+    "category": "milling",
+    "date": "2026-10-14",
+    "weekday": "Wed",
+    "street": "S Aiken Ave",
+    "from": "Friendship Ave",
+    "to": "Baum BLVD",
+    "weekLabel": "2026 10-12 Milling list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "milling|2026-10-14|s negley ave|bridge|centre ave",
+    "category": "milling",
+    "date": "2026-10-14",
+    "weekday": "Wed",
+    "street": "S Negley Ave",
+    "from": "Bridge",
+    "to": "Centre Ave",
+    "weekLabel": "2026 10-12 Milling list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "milling|2026-10-15|environmental lot||",
+    "category": "milling",
+    "date": "2026-10-15",
+    "weekday": "Thu",
+    "street": "Environmental Lot",
+    "weekLabel": "2026 10-12 Milling list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "paving|2026-10-15|drexel rd|cliffview rd|kleber st",
+    "category": "paving",
+    "date": "2026-10-15",
+    "weekday": "Thu",
+    "street": "Drexel Rd",
+    "from": "Cliffview RD",
+    "to": "Kleber St",
+    "weekLabel": "2026 10-12 Paving list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "paving|2026-10-15|mountford|lafayette ave|bellrau st",
+    "category": "paving",
+    "date": "2026-10-15",
+    "weekday": "Thu",
+    "street": "Mountford",
+    "from": "Lafayette Ave",
+    "to": "Bellrau St",
+    "weekLabel": "2026 10-12 Paving list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "paving|2026-10-15|roedler way|coverdale st|dead end",
+    "category": "paving",
+    "date": "2026-10-15",
+    "weekday": "Thu",
+    "street": "Roedler Way",
+    "from": "Coverdale St",
+    "to": "Dead End",
+    "weekLabel": "2026 10-12 Paving list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "milling|2026-10-16|environmental lot||",
+    "category": "milling",
+    "date": "2026-10-16",
+    "weekday": "Fri",
+    "street": "Environmental Lot",
+    "weekLabel": "2026 10-12 Milling list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "paving|2026-10-16|environmental lot||",
+    "category": "paving",
+    "date": "2026-10-16",
+    "weekday": "Fri",
+    "street": "Environmental Lot",
+    "weekLabel": "2026 10-12 Paving list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
+  },
+  {
+    "id": "paving|2026-10-17|environmental lot||",
+    "category": "paving",
+    "date": "2026-10-17",
+    "weekday": "Sat",
+    "street": "Environmental Lot",
+    "weekLabel": "2026 10-12 Paving list",
+    "firstSeen": "2026-10-10T16:04:19.376Z",
+    "lastSeen": "2026-10-10T16:04:19.376Z"
   }
 ]
