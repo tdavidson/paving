@@ -5161,7 +5161,7 @@
     "street": "City Facility Parking Lot",
     "weekLabel": "2026 10-26 Paving list",
     "firstSeen": "2026-10-23T15:34:36.092Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   },
   {
     "id": "paving|2026-10-27|city facility parking lot||",
@@ -5171,7 +5171,7 @@
     "street": "City Facility Parking Lot",
     "weekLabel": "2026 10-26 Paving list",
     "firstSeen": "2026-10-23T15:34:36.092Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   },
   {
     "id": "paving|2026-10-28|city facility parking lot||",
@@ -5181,7 +5181,7 @@
     "street": "City Facility Parking Lot",
     "weekLabel": "2026 10-26 Paving list",
     "firstSeen": "2026-10-23T15:34:36.092Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   },
   {
     "id": "ada|2026-10-29|frayne st|sabina st",
@@ -5194,7 +5194,7 @@
     ],
     "weekLabel": "2026 10-26 ADA list",
     "firstSeen": "2026-10-29T17:13:26.226Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   },
   {
     "id": "ada|2026-10-29|northumberland st|s. negley ave",
@@ -5207,7 +5207,7 @@
     ],
     "weekLabel": "2026 10-26 ADA list",
     "firstSeen": "2026-10-29T17:13:26.226Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   },
   {
     "id": "ada|2026-10-29|sabina st|elyria way",
@@ -5220,7 +5220,7 @@
     ],
     "weekLabel": "2026 10-26 ADA list",
     "firstSeen": "2026-10-29T17:13:26.226Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   },
   {
     "id": "paving|2026-10-29|48th st|modoc way|butler st",
@@ -5232,7 +5232,7 @@
     "to": "Butler St",
     "weekLabel": "2026 10-26 Paving list",
     "firstSeen": "2026-10-23T15:34:36.092Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   },
   {
     "id": "paving|2026-10-29|antwerp way|eden way|lycurgus way",
@@ -5244,7 +5244,7 @@
     "to": "Lycurgus Way",
     "weekLabel": "2026 10-26 Paving list",
     "firstSeen": "2026-10-23T15:34:36.092Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   },
   {
     "id": "paving|2026-10-29|lycurgus way|cotton way|47th st",
@@ -5256,7 +5256,7 @@
     "to": "47th St",
     "weekLabel": "2026 10-26 Paving list",
     "firstSeen": "2026-10-23T15:34:36.092Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   },
   {
     "id": "paving|2026-10-29|modoc st|deadend|48th st",
@@ -5268,7 +5268,7 @@
     "to": "48th St",
     "weekLabel": "2026 10-26 Paving list",
     "firstSeen": "2026-10-23T15:34:36.092Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   },
   {
     "id": "paving|2026-10-29|modoc way|cotton way|47th st",
@@ -5280,7 +5280,7 @@
     "to": "47th St",
     "weekLabel": "2026 10-26 Paving list",
     "firstSeen": "2026-10-23T15:34:36.092Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   },
   {
     "id": "paving|2026-10-30|city facility parking lot||",
@@ -5290,7 +5290,7 @@
     "street": "City Facility Parking Lot",
     "weekLabel": "2026 10-26 Paving list",
     "firstSeen": "2026-10-23T15:34:36.092Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   },
   {
     "id": "paving|2026-10-31|city facility parking lot||",
@@ -5300,6 +5300,162 @@
     "street": "City Facility Parking Lot",
     "weekLabel": "2026 10-26 Paving list",
     "firstSeen": "2026-10-23T15:34:36.092Z",
-    "lastSeen": "2026-10-30T16:54:48.414Z"
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "paving|2026-11-02|antwerp way|eden way|lycurgus way",
+    "category": "paving",
+    "date": "2026-11-02",
+    "weekday": "Mon",
+    "street": "Antwerp Way",
+    "from": "Eden Way",
+    "to": "Lycurgus Way",
+    "weekLabel": "2026 11-2 Paving list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "paving|2026-11-02|lycurgus way|cotton way|47th st",
+    "category": "paving",
+    "date": "2026-11-02",
+    "weekday": "Mon",
+    "street": "Lycurgus Way",
+    "from": "Cotton Way",
+    "to": "47th St",
+    "weekLabel": "2026 11-2 Paving list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "paving|2026-11-02|modoc st|deadend|48th st",
+    "category": "paving",
+    "date": "2026-11-02",
+    "weekday": "Mon",
+    "street": "Modoc St",
+    "from": "Deadend",
+    "to": "48th St",
+    "weekLabel": "2026 11-2 Paving list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "paving|2026-11-02|modoc way|cotton way|47th st",
+    "category": "paving",
+    "date": "2026-11-02",
+    "weekday": "Mon",
+    "street": "Modoc Way",
+    "from": "Cotton Way",
+    "to": "47th St",
+    "weekLabel": "2026 11-2 Paving list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "milling|2026-11-03|maytide st|saw mill run|bethesda st",
+    "category": "milling",
+    "date": "2026-11-03",
+    "weekday": "Tue",
+    "street": "Maytide St",
+    "from": "Saw Mill Run",
+    "to": "Bethesda St",
+    "weekLabel": "2026 11-2 Milling list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "paving|2026-11-03|edgerton ave|s. murtland st|s dallas ave",
+    "category": "paving",
+    "date": "2026-11-03",
+    "weekday": "Tue",
+    "street": "Edgerton Ave",
+    "from": "S. Murtland St",
+    "to": "S Dallas Ave",
+    "weekLabel": "2026 11-2 Paving list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "paving|2026-11-03|gibbs way|deadend|edgerton ave",
+    "category": "paving",
+    "date": "2026-11-03",
+    "weekday": "Tue",
+    "street": "Gibbs Way",
+    "from": "Deadend",
+    "to": "Edgerton Ave",
+    "weekLabel": "2026 11-2 Paving list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "paving|2026-11-03|pinnacle way|deadend|willard st",
+    "category": "paving",
+    "date": "2026-11-03",
+    "weekday": "Tue",
+    "street": "Pinnacle Way",
+    "from": "Deadend",
+    "to": "Willard St",
+    "weekLabel": "2026 11-2 Paving list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "paving|2026-11-03|willard st|deadend|s. dallas ave",
+    "category": "paving",
+    "date": "2026-11-03",
+    "weekday": "Tue",
+    "street": "Willard St",
+    "from": "Deadend",
+    "to": "S. Dallas Ave",
+    "weekLabel": "2026 11-2 Paving list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "milling|2026-11-04|lynnbrook ave|dead end|fiat st",
+    "category": "milling",
+    "date": "2026-11-04",
+    "weekday": "Wed",
+    "street": "Lynnbrook Ave",
+    "from": "Dead End",
+    "to": "Fiat St",
+    "weekLabel": "2026 11-2 Milling list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "milling|2026-11-05|bartlett st|shady ave|murray ave",
+    "category": "milling",
+    "date": "2026-11-05",
+    "weekday": "Thu",
+    "street": "Bartlett St",
+    "from": "Shady Ave",
+    "to": "Murray Ave",
+    "weekLabel": "2026 11-2 Milling list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "paving|2026-11-05|maytide st|saw mill run|bethesda st",
+    "category": "paving",
+    "date": "2026-11-05",
+    "weekday": "Thu",
+    "street": "Maytide St",
+    "from": "Saw Mill Run",
+    "to": "Bethesda St",
+    "weekLabel": "2026 11-2 Paving list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
+  },
+  {
+    "id": "paving|2026-11-06|lynnbrook ave|dead end|fiat st",
+    "category": "paving",
+    "date": "2026-11-06",
+    "weekday": "Fri",
+    "street": "Lynnbrook Ave",
+    "from": "Dead End",
+    "to": "Fiat St",
+    "weekLabel": "2026 11-2 Paving list",
+    "firstSeen": "2026-10-31T15:55:56.098Z",
+    "lastSeen": "2026-10-31T15:55:56.098Z"
   }
 ]
