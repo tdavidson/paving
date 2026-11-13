@@ -5194,7 +5194,7 @@
     ],
     "weekLabel": "2026 10-26 ADA list",
     "firstSeen": "2026-10-29T17:13:26.226Z",
-    "lastSeen": "2026-11-12T18:39:31.620Z"
+    "lastSeen": "2026-11-13T18:19:16.075Z"
   },
   {
     "id": "ada|2026-10-29|northumberland st|s. negley ave",
@@ -5207,7 +5207,7 @@
     ],
     "weekLabel": "2026 10-26 ADA list",
     "firstSeen": "2026-10-29T17:13:26.226Z",
-    "lastSeen": "2026-11-12T18:39:31.620Z"
+    "lastSeen": "2026-11-13T18:19:16.075Z"
   },
   {
     "id": "ada|2026-10-29|sabina st|elyria way",
@@ -5220,7 +5220,7 @@
     ],
     "weekLabel": "2026 10-26 ADA list",
     "firstSeen": "2026-10-29T17:13:26.226Z",
-    "lastSeen": "2026-11-12T18:39:31.620Z"
+    "lastSeen": "2026-11-13T18:19:16.075Z"
   },
   {
     "id": "paving|2026-10-29|48th st|modoc way|butler st",
@@ -5468,7 +5468,7 @@
     "to": "Murray Ave",
     "weekLabel": "2026 11-9 Paving list",
     "firstSeen": "2026-11-06T17:46:33.756Z",
-    "lastSeen": "2026-11-12T18:39:31.620Z"
+    "lastSeen": "2026-11-13T18:19:16.075Z"
   },
   {
     "id": "paving|2026-11-11|31st st|penn ave|railroad st",
@@ -5480,7 +5480,7 @@
     "to": "Railroad St",
     "weekLabel": "2026 11-9 Paving list",
     "firstSeen": "2026-11-06T17:46:33.756Z",
-    "lastSeen": "2026-11-12T18:39:31.620Z"
+    "lastSeen": "2026-11-13T18:19:16.075Z"
   },
   {
     "id": "paving|2026-11-11|railroad st|29th st|31st st",
@@ -5492,7 +5492,7 @@
     "to": "31st St",
     "weekLabel": "2026 11-9 Paving list",
     "firstSeen": "2026-11-06T17:46:33.756Z",
-    "lastSeen": "2026-11-12T18:39:31.620Z"
+    "lastSeen": "2026-11-13T18:19:16.075Z"
   },
   {
     "id": "paving|2026-11-12|forbes ave|aylesboro ave|northumberland st",
@@ -5504,7 +5504,7 @@
     "to": "Northumberland St",
     "weekLabel": "2026 11-9 Paving list",
     "firstSeen": "2026-11-06T17:46:33.756Z",
-    "lastSeen": "2026-11-12T18:39:31.620Z"
+    "lastSeen": "2026-11-13T18:19:16.075Z"
   },
   {
     "id": "paving|2026-11-12|west park trails||",
@@ -5514,6 +5514,181 @@
     "street": "West Park Trails",
     "weekLabel": "2026 11-9 Paving list",
     "firstSeen": "2026-11-06T17:46:33.756Z",
-    "lastSeen": "2026-11-12T18:39:31.620Z"
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-16|31st st|penn ave|railroad st",
+    "category": "paving",
+    "date": "2026-11-16",
+    "weekday": "Mon",
+    "street": "31st St",
+    "from": "Penn Ave",
+    "to": "Railroad St",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-16|forbes ave|aylesboro ave|northumberland st",
+    "category": "paving",
+    "date": "2026-11-16",
+    "weekday": "Mon",
+    "street": "Forbes Ave",
+    "from": "Aylesboro Ave",
+    "to": "Northumberland St",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-16|railroad st|29th st|31st st",
+    "category": "paving",
+    "date": "2026-11-16",
+    "weekday": "Mon",
+    "street": "Railroad St",
+    "from": "29th St",
+    "to": "31st St",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-16|railroad st||",
+    "category": "paving",
+    "date": "2026-11-16",
+    "weekday": "Mon",
+    "street": "Railroad St",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-16|west park trails||",
+    "category": "paving",
+    "date": "2026-11-16",
+    "weekday": "Mon",
+    "street": "West Park Trails",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-17|edgar st|no pave|base work",
+    "category": "paving",
+    "date": "2026-11-17",
+    "weekday": "Tue",
+    "street": "Edgar St",
+    "from": "No pave",
+    "to": "Base Work",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-17|forbes ave|aylesboro ave|northumberland st",
+    "category": "paving",
+    "date": "2026-11-17",
+    "weekday": "Tue",
+    "street": "Forbes ave",
+    "from": "Aylesboro Ave",
+    "to": "Northumberland St",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-17|maeburn rd|no pave|base work",
+    "category": "paving",
+    "date": "2026-11-17",
+    "weekday": "Tue",
+    "street": "Maeburn Rd",
+    "from": "No pave",
+    "to": "Base work",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-18|31st st|penn ave|railroad st",
+    "category": "paving",
+    "date": "2026-11-18",
+    "weekday": "Wed",
+    "street": "31st St",
+    "from": "Penn Ave",
+    "to": "Railroad St",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-18|maeburn rd|no pave|base work",
+    "category": "paving",
+    "date": "2026-11-18",
+    "weekday": "Wed",
+    "street": "Maeburn Rd",
+    "from": "No pave",
+    "to": "Base work",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-18|maytide st|no pave|base work",
+    "category": "paving",
+    "date": "2026-11-18",
+    "weekday": "Wed",
+    "street": "Maytide St",
+    "from": "No pave",
+    "to": "Base Work",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-18|railroad st|29th st|31st st",
+    "category": "paving",
+    "date": "2026-11-18",
+    "weekday": "Wed",
+    "street": "Railroad St",
+    "from": "29th St",
+    "to": "31st St",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-19|maeburn rd|no pave|base work",
+    "category": "paving",
+    "date": "2026-11-19",
+    "weekday": "Thu",
+    "street": "Maeburn Rd",
+    "from": "No pave",
+    "to": "Base work",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-19|maytide st|no pave|base work",
+    "category": "paving",
+    "date": "2026-11-19",
+    "weekday": "Thu",
+    "street": "Maytide St",
+    "from": "No pave",
+    "to": "Base Work",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
+  },
+  {
+    "id": "paving|2026-11-20|hawthorne st||key cuts and ramping",
+    "category": "paving",
+    "date": "2026-11-20",
+    "weekday": "Fri",
+    "street": "Hawthorne St",
+    "to": "Key cuts and ramping",
+    "weekLabel": "2026 11-16 Paving list",
+    "firstSeen": "2026-11-13T18:19:16.075Z",
+    "lastSeen": "2026-11-13T18:19:16.075Z"
   }
 ]
